@@ -1,52 +1,19 @@
 'use client';
 
-import { StyledTable } from "@/components";
+import React from 'react';
+import { useSession } from 'next-auth/react';
+import { redirect } from 'next/navigation';
+import LoginForm from '../components/LoginForm';
 
-const Home = () => {
 
-  const dataSource = [
-    {
-      key: '1',
-      name: 'Mike',
-      age: 32,
-      address: '10 Downing Street',
-    },
-    {
-      key: '2',
-      name: 'John',
-      age: 42,
-      address: '10 Downing Street',
-    },
-  ];
+export default function Home() {
+  const { data: session, status } = useSession();
 
-  const columns = [
-    {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
-    },
-    {
-      title: 'Age',
-      dataIndex: 'age',
-      key: 'age',
-    },
-    {
-      title: 'Address',
-      dataIndex: 'address',
-      key: 'address',
-    },
-  ];
+  // Redirect to dashboard if already authenticated
+  if (status === 'authenticated') {
+    redirect('/dashboard');
+  }
 
-  return (
-    <StyledTable
-      columns={columns}
-      dataSource={dataSource}
-      total={2}
-      currentPage={1}
-      pageSize={20}
-      scroll={{ y: 500 }}
-    />
-  );
+  // Show login form if not authenticated
+  return <LoginForm />;
 }
-
-export default Home;
