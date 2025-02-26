@@ -1,0 +1,170 @@
+.table {
+  border-radius: 10px;
+
+  :global(.ant-table) {
+    background: transparent !important;
+    height: calc(100vh - 260px);
+  }
+
+  :global(.ant-table-header) {
+    box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.05);
+    border-radius: 10px !important;
+
+    tr {
+
+      th,
+      td {
+        background: rgba(255, 255, 255, 1) !important;
+        color: rgba(0, 68, 137, 1) !important;
+        font-size: 15px;
+        padding: 15px 10px;
+        border: none;
+
+        &::before {
+          display: none;
+        }
+      }
+    }
+
+    margin-bottom: 15px;
+    background-color: transparent;
+  }
+
+  :global(.ant-table-body) {
+    border-radius: 10px !important;
+    box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.05);
+
+    &::-webkit-scrollbar {
+      width: 6px !important;
+      height: 6px !important;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #d9d9d9;
+      border-radius: 10px;
+    }
+
+    :global(.ant-table-row) {
+      background: rgba(255, 255, 255, 1);
+      font-size: 15px;
+      font-weight: 500;
+
+      :global(.ant-table-cell) {
+        border: none;
+        padding: 15px 10px;
+      }
+
+      :global(.ant-table-cell-row-hover) {
+        background: rgba(233, 243, 255, 1) !important;
+      }
+    }
+
+    :global(.ant-table-row.ant-table-row-selected >.ant-table-cell) {
+      background: rgba(233, 243, 255, 1) !important;
+    }
+  }
+
+  :global(.ant-checkbox .ant-checkbox-inner) {
+    background-color: rgba(249, 252, 255, 1);
+    border: 1px solid rgba(202, 217, 255, 1);
+  }
+
+  :global(.ant-checkbox-checked .ant-checkbox-inner) {
+    background-color: #004489;
+    border-color: #004489;
+  }
+
+  :global(.ant-pagination-options) {
+    position: absolute;
+    left: 0;
+    margin-left: 0 !important;
+    display: flex;
+    align-items: center;
+
+    &:before {
+      color: #999;
+      margin-right: 8px;
+      font-size: 13px;
+      content: "Montrer";
+    }
+
+    &:after {
+      margin-left: 8px;
+      color: #999;
+      font-size: 13px;
+      content: "par page";
+    }
+
+    :global(.ant-select-selector) {
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
+  }
+
+  :global(.ant-pagination) {
+    margin: 0 !important;
+    margin-block: 0;
+    padding: 15px 0;
+    background-color: transparent;
+    border-radius: 0 0 5px 5px;
+
+    //border-top: 1px solid #eaeaea;
+    * {
+      font-size: 13px;
+    }
+
+    :global(.ant-pagination-item) {
+      a {
+        color: #004489;
+      }
+
+      border-radius: 100%;
+    }
+
+    :global(.ant-pagination-item-active) {
+      background-color: #004489;
+      transition: all 0s;
+      border-radius: 100%;
+
+      a {
+        color: #fff;
+      }
+    }
+  }
+}
+
+.navigateBtn {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  :global(.label) {
+    font-size: 13px;
+    color: #999999;
+  }
+  svg {
+    font-size: 11px;
+  }
+}
+
+.tableSmall {
+  :global(.ant-table) {
+    height: unset;
+  }
+  :global(.ant-table-header) {
+    box-shadow: none;
+    tr {
+      th,
+      td {
+        background: rgba(243, 250, 255, 1) !important;
+        color: rgba(0, 117, 241, 1) !important;
+        font-size: 14px;
+        padding: 10px;
+      }
+    }
+  }
+  :global(.ant-table-body) {
+    box-shadow: none;
+    :global(.ant-table-row) {
+      font-size: 14px;
+    }
+  }
+}
