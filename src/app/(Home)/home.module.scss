@@ -1,0 +1,91 @@
+.header {
+  margin: 15px 15px 0;
+  padding: 20px 30px;
+  background: rgba(0, 68, 137, 1);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .menu {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+
+    li {
+      a {
+        color: rgba(255, 255, 255, 1);
+        font-weight: 500;
+        display: flex;
+        flex-direction: column;
+        gap: 13px;
+      }
+
+      .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: transparent;
+        margin: auto;
+        transition: background 0.1s linear 0.1s;
+      }
+
+      &:hover {
+        .dot {
+          background: rgba(87, 165, 243, 1) !important;
+        }
+      }
+    }
+  }
+
+  .user {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    padding: 10px 25px;
+    color: rgba(255, 255, 255, 1);
+    font-weight: 500;
+    .configBtn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255, 255, 255, 1);
+    }
+    .logoutBtn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255, 255, 255, 1);
+      &:hover {
+        color: red;
+      }
+    }
+  }
+}
+
+.ListTableDb {
+  :global(.ant-popover-inner) {
+    overflow: auto;
+    height: 300px;
+    width: 220px;
+
+    &::-webkit-scrollbar {
+      width: 6px !important;
+      height: 6px !important;
+      background: #fff;
+      border-top-right-radius: 10px;
+      border-bottom-right-radius: 10px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #d9d9d9;
+      border-radius: 10px;
+    }
+
+    :global(.ant-space-item) {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      width: 200px;
+    }
+  }
+}

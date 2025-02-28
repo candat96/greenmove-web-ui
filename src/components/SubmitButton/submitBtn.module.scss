@@ -1,0 +1,22 @@
+.submitBtn {
+    height: 56px !important;
+    width: 100%;
+    background: linear-gradient(to right, rgba(0, 68, 137, 1) , rgba(29, 101, 191, 1)) !important;
+    border-radius: 10px !important;
+    position: relative !important;
+    border: none !important;
+    // margin-top: 30px;
+    font-weight: 600 !important;
+    &:hover {
+        opacity: 0.8 !important;
+    }
+    div {
+        position: absolute;
+        height: 56px;
+        width: 10px;
+        background: rgba(226, 0, 37, 1);
+        border-radius: 10px 0 0 10px;
+        top: 0;
+        left: 0;
+    }
+}

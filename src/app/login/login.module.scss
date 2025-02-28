@@ -1,0 +1,97 @@
+.section {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: space-between;
+    .decorBlue {
+        height: 97%;
+        width: 33%;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    .decorRed {
+        height: 28%;
+        width: 24%;
+        position: absolute;
+        top: 0;
+        left: 26.5%;
+    }
+    .name {
+        z-index: 1;
+        color: #fff;
+        font-size: 56px;
+        text-align: center;
+        font-weight: 700;
+        text-transform: uppercase;
+        height: 93%;
+        width: 30%;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        @media only screen and (max-width: 2500px) {
+            font-size: 40px;
+        }
+        @media only screen and (max-width: 1700px) {
+            font-size: 30px;
+        }
+        @media only screen and (max-width: 1200px) {
+            font-size: 20px;
+        }
+        @media only screen and (max-width: 800px) {
+            font-size: 10px;
+        }
+    }
+    .main {
+        margin: auto;
+        width: 482px;
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        font-weight: 500;
+        .form {
+            width: 100%;
+            margin-top: 20px;
+            .emailInput {
+                border-color: transparent;
+                height: 50px;
+                background: rgba(243, 250, 255, 1);
+                font-weight: 500;
+                &:hover {
+                    border-color: #185b96;
+                }
+                &:focus-within {
+                    border-color: #004489;
+                }
+            }
+            .pwdInput {
+                border-color: transparent;
+                height: 50px;
+                background: rgba(243, 250, 255, 1);
+                :global(.ant-input) {
+                    background: rgba(243, 250, 255, 1);
+                    font-weight: 500;
+                }
+                &:hover {
+                    border-color: #185b96;
+                }
+                &:focus-within {
+                    border-color: #004489;
+                }
+                svg {
+                    color: #000;
+                    font-size: 16px;
+                }
+            }
+            // :global(.ant-form-item) {
+            //     margin-bottom: 15px;
+            // }
+        }
+        .forgotPwd {
+            color: rgba(0, 68, 137, 1);
+            &:hover {
+                opacity: 0.8;
+            }
+        }
+    }
+}
