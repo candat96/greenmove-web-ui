@@ -90,7 +90,7 @@ const Login: React.FC = () => {
                         </Link> */}
 
                         <Row style={{ marginTop: 30 }}>
-                            <SubmitButton handleClick={() => form.submit()} label={"Sign In"} />
+                            <SubmitButton handleClick={() => signIn('azure-ad')} label={"Sign In"} />
                         </Row>
 
                     </Loading>
