@@ -1,8 +1,10 @@
-import { LeftOutlined, RightOutlined } from "@ant-design/icons";
+import Icon, { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { Table } from "antd";
 import styles from "./table.module.scss";
 import { Key, ReactNode } from "react";
+import { SAR } from "@/assets/svg";
 import type { TableProps } from 'antd/es/table';
+import spin from "../Loading/spin.module.scss";
 
 interface TablePropsType<T> extends TableProps<T> {
     total: number | undefined,
@@ -11,7 +13,7 @@ interface TablePropsType<T> extends TableProps<T> {
     onClickRow?: (arg0: T) => void,
     selectedRowKeys?: Key[],
     setSelectedRowKeys?: (selectedRowKeys: Key[], selectedRows: T[]) => void,
-    small?: boolean,
+    loading?: boolean,
     defaultPageSize?: number,
     className?: string
 }
@@ -19,20 +21,15 @@ interface TablePropsType<T> extends TableProps<T> {
 const PAGE_SIZE_OPTIONS: number[] = [5, 20, 50, 100];
 
 const StyledTable = <T extends object>({
-    columns = [],
-    dataSource = [],
-    rowKey,
     total,
     currentPage,
     pageSize,
-    scroll,
     onClickRow = () => {},
     selectedRowKeys,
     setSelectedRowKeys = () => {},
-    onChange = () => {},
-    small,
     defaultPageSize,
     className,
+    loading,
     ...props
 }: TablePropsType<T>) => {
 
@@ -58,13 +55,7 @@ const StyledTable = <T extends object>({
 
     return (
         <Table
-            className={small
-                ? `${styles.table} ${styles.tableSmall} ${className}`
-                : `${styles.table} ${className}`
-            }
-            columns={columns}
-            dataSource={dataSource}
-            rowKey={rowKey}
+            className={`${styles.table} ${className}`}
             pagination={{
                 showSizeChanger: true,
                 total: total,
@@ -75,7 +66,6 @@ const StyledTable = <T extends object>({
                 pageSizeOptions: PAGE_SIZE_OPTIONS,
                 defaultPageSize: defaultPageSize || 5,
             }}
-            scroll={scroll}
             onRow={(record) => {
                 return {
                     onClick: () => onClickRow(record), // click row
@@ -89,7 +79,10 @@ const StyledTable = <T extends object>({
                     }
                     : undefined
             }
-            onChange={onChange}
+            loading={{
+                indicator: <Icon component={SAR} style={{ fontSize: 30 }} className={spin.spin} />,
+                spinning: loading
+            }}
             showSorterTooltip={false}
             {...props}
         />

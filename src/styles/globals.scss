@@ -47,3 +47,29 @@ a {
 .ant-popover-arrow::after {
   background: #fff !important;
 }
+
+.ant-table-wrapper .ant-table-thead >tr>th{
+  background-color: #F3F4F6 !important ;
+  color: #234B8E !important ;
+  font-size: 14px !important ;
+  font-weight: 600 !important ;
+}
+
+.ant-table-cell {
+  color: #234B8E  ;
+  font-size: 14px  ;
+  font-weight: 600  ;
+}
+
+.ant-picker-range {
+  border-radius: 20px !important;
+  background: #F3F4F6 !important;
+  border: none !important;
+}
+
+.ant-picker-range input, .ant-picker-range input::placeholder {
+  color: #234B8E !important;
+  font-size: 16px !important;
+  font-weight: 500 !important;
+
+}

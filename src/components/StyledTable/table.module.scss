@@ -144,27 +144,3 @@
     font-size: 11px;
   }
 }
-
-.tableSmall {
-  :global(.ant-table) {
-    height: unset;
-  }
-  :global(.ant-table-header) {
-    box-shadow: none;
-    tr {
-      th,
-      td {
-        background: rgba(243, 250, 255, 1) !important;
-        color: rgba(0, 117, 241, 1) !important;
-        font-size: 14px;
-        padding: 10px;
-      }
-    }
-  }
-  :global(.ant-table-body) {
-    box-shadow: none;
-    :global(.ant-table-row) {
-      font-size: 14px;
-    }
-  }
-}

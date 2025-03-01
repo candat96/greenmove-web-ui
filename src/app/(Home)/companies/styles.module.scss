@@ -1,0 +1,41 @@
+.wrap-companies {
+    padding: 10px;
+  .wrap-header {
+    display: flex;
+    justify-content: space-between;
+    >h2 {
+        font-size: 32px;
+        font-weight: 700;
+        color: #234B8E;
+    }
+
+    .header-left {
+      display: flex;
+      gap: 10px;
+
+      .header-add {
+        display: flex;
+        height: 44px;
+        background-color: #234B8E;
+        border-radius: 20px;
+        color: white;
+        align-items: center;
+        padding: 11px 24px;
+      }
+    }
+  }
+
+  .wrap-body {
+    margin-top: 24px;
+
+    .table {
+        border-radius: 10px;
+        overflow: hidden;
+        border: 1px solid #E9E9E9;
+
+        :global {
+           
+        }
+    }
+  }
+}
