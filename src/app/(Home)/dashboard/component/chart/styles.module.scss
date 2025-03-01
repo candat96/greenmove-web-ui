@@ -1,0 +1,42 @@
+.chart-top {
+  display: flex;
+  justify-content: space-between;
+
+  h2 {
+    color: #234b8e;
+    font-size: 32px;
+    font-weight: 700;
+  }
+}
+
+.group-chart {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+
+  .chart {
+  width: 100%;
+
+  }
+  h2 {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    text-orientation: mixed;
+    margin: 0 10px 0 0;
+    font-size: 16px;
+    color: #234b8e;
+    opacity: 0.5;
+    font-weight: 500;
+  }
+}
+
+.group-chart-2 {
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid #eaeaea;
+  .Item + .Item {
+    border-top: 1px solid #eaeaea;
+  }
+}

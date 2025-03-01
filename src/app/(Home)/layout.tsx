@@ -27,7 +27,7 @@ const HomeLayout: React.FC = ({ children }: React.PropsWithChildren) => {
         return <LoadingScreen />
     }
 
-    if (session) {
+    if (true) {
         return (
             <main>
                 <header className={styles.header}>
