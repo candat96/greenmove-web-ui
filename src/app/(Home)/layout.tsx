@@ -20,6 +20,23 @@ const HomeLayout: React.FC = ({ children }: React.PropsWithChildren) => {
     //     session && session?.maxAge <= 0 && signOut()
     // }, [update])
 
+    const handleGet = async () => {
+        try {
+            const res = await fetch("https://graph.microsoft.com/v1.0/me", {
+                method: 'GET',
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${session.accessToken}`,
+                }
+            })
+            // console.log(await res.json())
+            const payload = await res.json()
+            console.log(payload)
+        } catch (e) {
+
+        }
+    }
+
     if (status == "loading") {
         return <LoadingScreen />
     }
@@ -34,24 +51,15 @@ const HomeLayout: React.FC = ({ children }: React.PropsWithChildren) => {
                         priority
                     />
                     <Space size={40}>
-                        {/* <ul className={styles.menu}>
-                            {navigateMenu.map(item => (
-                                <li key={item.link}>
-                                    <Link href={item.link}>
-                                        <span>{t(item.label)}</span>
-                                        <div
-                                            className={styles.dot}
-                                            style={{ background: pathname === item.link ? "rgba(87, 165, 243, 1)" : "transparent" }}
-                                        />
-                                    </Link>
-                                </li>
-                            ))}
-                        </ul> */}
+                        <ul className={styles.menu}>
+
+                        </ul>
                         <Space className={styles.user} size={23}>
                             <Button
                                 icon={<SettingOutlined style={{ fontSize: 20 }} />}
                                 type="link"
                                 className={styles.configBtn}
+                                onClick={handleGet}
                             />
                             <Button
                                 icon={<PoweroffOutlined style={{ fontSize: 20 }} />}
@@ -60,7 +68,7 @@ const HomeLayout: React.FC = ({ children }: React.PropsWithChildren) => {
                                 onClick={() => signOut()}
                             />
                             <Space>
-                                <Avatar size={42} icon={<UserOutlined />} /*src={avatar}*/ />
+                                <Avatar size={42} icon={<UserOutlined />} />
                                 <span>{session?.user?.name}</span>
                             </Space>
                         </Space>

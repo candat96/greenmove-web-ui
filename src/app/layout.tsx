@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import "@/styles/globals.scss";
 import AntdProvider from "@/providers/AntdRegistry";
 import { NextAuthProvider } from "@/providers/NextAuthProvider";
+import '@ant-design/v5-patch-for-react-19';
 
 const geistManrope = Manrope({
   preload: false,

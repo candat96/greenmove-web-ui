@@ -4,11 +4,12 @@ import { authOptions } from '@/lib/auth';
 
 const Home: React.FC = async () => {
     const session = await getServerSession(authOptions);
-    // if (session) {
-        redirect("/dashboard")
-    // } else {
-    //   redirect("/login") 
-    // }
+    if (session) {
+        // redirect("/")
+        return <div/>
+    } else {
+      redirect("/login") 
+    }
 }
 
 export default Home;
