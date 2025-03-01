@@ -43,7 +43,7 @@ const HomeLayout: React.FC = ({ children }: React.PropsWithChildren) => {
 
     if (true) {
         return (
-            <main style={{ background: "rgba(249, 252, 255, 1)" }}>
+            <main style={{ background: "rgba(249, 252, 255, 1)" , height:"100vh" }}>
                 <header className={styles.header}>
                     <Image
                         src={LogoWhite}

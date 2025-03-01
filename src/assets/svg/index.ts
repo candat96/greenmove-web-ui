@@ -7,6 +7,7 @@ import Excel from './Excel';
 import AroundDown from './aroundDown.svg';
 import AroundUp from './aroundUp.svg';
 import Flag from './Flag.svg';
+import Plus from './Plus.svg';
 
 export {
     Edit,
@@ -17,5 +18,6 @@ export {
     Excel,
     AroundDown,
     AroundUp,
-    Flag
+    Flag,
+    Plus,
 }
