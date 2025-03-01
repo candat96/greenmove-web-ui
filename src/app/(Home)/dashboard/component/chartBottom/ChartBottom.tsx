@@ -8,75 +8,75 @@ function getRandomNumber() {
 
 const ChartBottom = () => {
   const data = [
-    { month: "1991", value: getRandomNumber(), type: "Emission totales" },
-    { month: "1992", value: getRandomNumber(), type: "Emission totales" },
-    { month: "1993", value: getRandomNumber(), type: "Emission totales" },
-    { month: "1994", value: getRandomNumber(), type: "Emission totales" },
-    { month: "1995", value: getRandomNumber(), type: "Emission totales" },
+    { month: "Jan", value: getRandomNumber(), type: "Emission totales" },
+    { month: "Fed", value: getRandomNumber(), type: "Emission totales" },
+    { month: "Mar", value: getRandomNumber(), type: "Emission totales" },
+    { month: "Apr", value: getRandomNumber(), type: "Emission totales" },
+    { month: "May", value: getRandomNumber(), type: "Emission totales" },
 
-    { month: "1991", value: getRandomNumber(), type: "Par avion" },
-    { month: "1992", value: getRandomNumber(), type: "Par avion" },
-    { month: "1993", value: getRandomNumber(), type: "Par avion" },
-    { month: "1994", value: getRandomNumber(), type: "Par avion" },
-    { month: "1995", value: getRandomNumber(), type: "Par avion" },
-
-    {
-      month: "1991",
-      value: getRandomNumber(),
-      type: "Par voiture individuelle",
-    },
-    {
-      month: "1992",
-      value: getRandomNumber(),
-      type: "Par voiture individuelle",
-    },
-    {
-      month: "1993",
-      value: getRandomNumber(),
-      type: "Par voiture individuelle",
-    },
-    {
-      month: "1994",
-      value: getRandomNumber(),
-      type: "Par voiture individuelle",
-    },
-    {
-      month: "1995",
-      value: getRandomNumber(),
-      type: "Par voiture individuelle",
-    },
+    { month: "Jan", value: getRandomNumber(), type: "Par avion" },
+    { month: "Fed", value: getRandomNumber(), type: "Par avion" },
+    { month: "Mar", value: getRandomNumber(), type: "Par avion" },
+    { month: "Apr", value: getRandomNumber(), type: "Par avion" },
+    { month: "May", value: getRandomNumber(), type: "Par avion" },
 
     {
-      month: "1991",
+      month: "Jan",
+      value: getRandomNumber(),
+      type: "Par voiture individuelle",
+    },
+    {
+      month: "Fed",
+      value: getRandomNumber(),
+      type: "Par voiture individuelle",
+    },
+    {
+      month: "Mar",
+      value: getRandomNumber(),
+      type: "Par voiture individuelle",
+    },
+    {
+      month: "Apr",
+      value: getRandomNumber(),
+      type: "Par voiture individuelle",
+    },
+    {
+      month: "May",
+      value: getRandomNumber(),
+      type: "Par voiture individuelle",
+    },
+
+    {
+      month: "Jan",
       value: getRandomNumber(),
       type: "Par transport en commun",
     },
     {
-      month: "1992",
+      month: "Fed",
       value: getRandomNumber(),
       type: "Par transport en commun",
     },
     {
-      month: "1993",
+      month: "Mar",
       value: getRandomNumber(),
       type: "Par transport en commun",
     },
     {
-      month: "1994",
+      month: "Apr",
       value: getRandomNumber(),
       type: "Par transport en commun",
     },
     {
-      month: "1995",
+      month: "May",
       value: getRandomNumber(),
       type: "Par transport en commun",
     },
 
-    { month: "1991", value: getRandomNumber(), type: "Par covoiturage" },
-    { month: "1992", value: getRandomNumber(), type: "Par covoiturage" },
-    { month: "1993", value: getRandomNumber(), type: "Par covoiturage" },
-    { month: "1994", value: getRandomNumber(), type: "Par covoiturage" },
-    { month: "1995", value: getRandomNumber(), type: "Par covoiturage" },
+    { month: "Jan", value: getRandomNumber(), type: "Par covoiturage" },
+    { month: "Fed", value: getRandomNumber(), type: "Par covoiturage" },
+    { month: "Mar", value: getRandomNumber(), type: "Par covoiturage" },
+    { month: "Apr", value: getRandomNumber(), type: "Par covoiturage" },
+    { month: "May", value: getRandomNumber(), type: "Par covoiturage" },
   ];
 
   const config = {
@@ -84,7 +84,7 @@ const ChartBottom = () => {
     xField: "month",
     yField: "value",
     seriesField: "type",
-    legend: false, // Đã bỏ legend để sử dụng custom legend bên dưới
+    legend: { visible: false },
     yAxis: {
       label: {
         formatter: (v) =>
