@@ -41,7 +41,7 @@ const HomeLayout: React.FC = ({ children }: React.PropsWithChildren) => {
         return <LoadingScreen />
     }
 
-    if (session) {
+    if (true) {
         return (
             <main style={{ background: "rgba(249, 252, 255, 1)" }}>
                 <header className={styles.header}>
