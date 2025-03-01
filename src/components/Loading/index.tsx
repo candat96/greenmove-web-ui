@@ -1,10 +1,10 @@
 import { SAR } from "@/assets/svg";
 import Icon from "@ant-design/icons";
-import { Spin } from "antd";
+import { Spin, SpinProps } from "antd";
 import { ReactNode } from "react";
 import style from "./spin.module.scss";
 
-interface LoadingTypes {
+interface LoadingTypes extends SpinProps {
     children: ReactNode,
     loading: boolean,
 }

@@ -13,6 +13,7 @@ export default async function middleware(request: NextRequest) {
       req: request
     });
     // check not logged in.
+    console.log(token)
     if (!token) {
       const url = new URL("/login", request.url);
       return NextResponse.redirect(url);

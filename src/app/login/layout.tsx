@@ -5,7 +5,7 @@ import { authOptions } from '@/lib/auth';
 const LoginLayout: React.FC = async ({ children }: React.PropsWithChildren) => {
     const session = await getServerSession(authOptions);
     if (session) {
-        redirect("/")
+        redirect("/dashboard")
     } else {
         return children
     }

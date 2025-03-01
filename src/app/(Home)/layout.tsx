@@ -3,12 +3,13 @@
 import { LogoWhite } from "@/assets/img";
 import styles from "./home.module.scss"
 import Image from "next/image";
-import { Avatar } from "antd";
+import { Avatar, Button, Popover } from "antd";
 import { usePathname, useRouter } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import { LoadingScreen } from "@/components";
 import { navigateMenu } from "@/lib/data";
 import Link from "next/link";
+import { PoweroffOutlined } from "@ant-design/icons";
 
 const HomeLayout: React.FC = ({ children }: React.PropsWithChildren) => {
 
@@ -17,7 +18,6 @@ const HomeLayout: React.FC = ({ children }: React.PropsWithChildren) => {
     const router = useRouter()
     const pathname = usePathname()
 
-    console.log(session)
     // Auto signOut when maxAge below 0
     // useEffect(() => {
     //     session && session?.maxAge <= 0 && signOut()
@@ -27,7 +27,7 @@ const HomeLayout: React.FC = ({ children }: React.PropsWithChildren) => {
         return <LoadingScreen />
     }
 
-    if (true) {
+    if (session) {
         return (
             <main>
                 <header className={styles.header}>
@@ -40,27 +40,38 @@ const HomeLayout: React.FC = ({ children }: React.PropsWithChildren) => {
                         {navigateMenu.map(item => (
                             <li
                                 key={item.link}
-                                className={pathname === item.link ? styles.current_link : styles.link}
+                                className={pathname === item.link ? styles.current_link : ""}
                             >
                                 <Link href={item.link}>
-                                    <span>{item.label}</span>
+                                    {item.label}
                                 </Link>
                             </li>
                         ))}
                     </ul>
-                    <Avatar
-                        style={{ backgroundColor: '#234B8E' }}
-                        size={42}
-                        onClick={() => signOut()}
+                    <Popover
+                        content={(
+                            <Button
+                                icon={<PoweroffOutlined style={{ fontSize: 20 }} />}
+                                type="link"
+                                className={styles.logoutBtn}
+                                onClick={() => signOut()}
+                            />
+                        )}
+                        placement="left"
                     >
-                        Đ
-                    </Avatar>
+                        <Avatar
+                            style={{ backgroundColor: '#234B8E' }}
+                            size={38}
+                        >
+                            {session.user?.name?.split(" ").pop()[0]}
+                        </Avatar>
+                    </Popover>
                 </header>
                 {children}
             </main>
         )
     } else {
-        router.push('/login')
+        router.push('/login');
     }
 }
 
