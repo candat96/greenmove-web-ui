@@ -33,7 +33,7 @@ const HomeLayout: React.FC = ({ children }: React.PropsWithChildren) => {
             const payload = await res.json()
             console.log(payload)
         } catch (e) {
-
+            console.log(`e`, e);
         }
     }
 

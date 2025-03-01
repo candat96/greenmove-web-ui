@@ -3,6 +3,7 @@
 import React from "react";
 import styles from "./styles.module.scss";
 import locale from "antd/es/date-picker/locale/en_US";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { DatePicker, Pagination, Table } from "antd";
 import { Plus } from "@/assets/svg";
 const { RangePicker } = DatePicker;
