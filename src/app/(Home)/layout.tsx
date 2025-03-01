@@ -24,7 +24,7 @@ const HomeLayout: React.FC = ({ children }: React.PropsWithChildren) => {
         return <LoadingScreen />
     }
 
-    if (session) {
+    if (true) {
         return (
             <main style={{ background: "rgba(249, 252, 255, 1)" }}>
                 <header className={styles.header}>
@@ -34,8 +34,8 @@ const HomeLayout: React.FC = ({ children }: React.PropsWithChildren) => {
                         priority
                     />
                     <Space size={40}>
-                        <ul className={styles.menu}>
-                            {/* {navigateMenu.map(item => (
+                        {/* <ul className={styles.menu}>
+                            {navigateMenu.map(item => (
                                 <li key={item.link}>
                                     <Link href={item.link}>
                                         <span>{t(item.label)}</span>
@@ -45,8 +45,8 @@ const HomeLayout: React.FC = ({ children }: React.PropsWithChildren) => {
                                         />
                                     </Link>
                                 </li>
-                            ))} */}
-                        </ul>
+                            ))}
+                        </ul> */}
                         <Space className={styles.user} size={23}>
                             <Button
                                 icon={<SettingOutlined style={{ fontSize: 20 }} />}

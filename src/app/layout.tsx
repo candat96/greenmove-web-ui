@@ -1,10 +1,12 @@
-import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
+import type { Metadata } from "next";
 import "@/styles/globals.scss";
 import AntdProvider from "@/providers/AntdRegistry";
 import { NextAuthProvider } from "@/providers/NextAuthProvider";
 
-const geistManrope = Manrope({});
+const geistManrope = Manrope({
+  preload: false,
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
