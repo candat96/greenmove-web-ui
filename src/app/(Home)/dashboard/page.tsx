@@ -2,7 +2,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import styles from "./style.module.scss";
-import { Col, DatePicker, Row } from "antd";
+import { Col, DatePicker, Row, Select } from "antd";
 import Image from "next/image";
 import { BackGroundCo2 } from "@/assets/img";
 import { AroundDown } from "@/assets/svg";
@@ -10,6 +10,7 @@ import Item, { ItemType } from "./component/Item/Item";
 import { Chart } from "./component/chart/Chart";
 import ChartBottom from "./component/chartBottom/ChartBottom";
 import locale from "antd/es/date-picker/locale/en_US";
+import Chart2 from "./component/chart2/ChartBottom";
 
 const { RangePicker } = DatePicker;
 const Dashboard = () => {
@@ -82,16 +83,41 @@ const Dashboard = () => {
         </Row>
       </div>
       <div className={styles["dashboard-bottom"]}>
-        <div className={styles["group-header"]}><h3>Émission de carbone par type de transport</h3>  <RangePicker
-          suffixIcon={false}
-          picker="month"
-          format="MMM"
-          style={{ width: 190 }}
-          locale={locale}
-        /></div>
-       <div>
-       <ChartBottom />
-       </div>
+        <div className={styles["group-header"]}>
+          <h3>Répartition de votre mobilité</h3>
+          <div style={{display: 'flex', gap: 10}}>
+          <RangePicker
+            suffixIcon={false}
+            picker="month"
+            format="MMM"
+            style={{ width: 190 }}
+            locale={locale}
+          />
+           <Select
+            options={[]}
+            style={{ minWidth: 190 }}
+          />
+          </div>
+         
+        </div>
+        <div>
+          <Chart2 />
+        </div>
+      </div>
+      <div className={styles["dashboard-bottom"]}>
+        <div className={styles["group-header"]}>
+          <h3>Émission de carbone par type de transport</h3>
+          <RangePicker
+            suffixIcon={false}
+            picker="month"
+            format="MMM"
+            style={{ width: 190 }}
+            locale={locale}
+          />
+        </div>
+        <div>
+          <ChartBottom />
+        </div>
       </div>
     </div>
   );
