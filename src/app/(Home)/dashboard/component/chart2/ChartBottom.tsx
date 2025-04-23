@@ -1,7 +1,9 @@
 import React from "react";
 import styles from "./style.module.scss";
 import { Pie } from "@ant-design/plots";
-
+import { DatePicker, Select } from "antd";
+import locale from "antd/es/locale";
+const { RangePicker } = DatePicker;
 const Chart2 = () => {
   const data = [
     {
@@ -166,10 +168,29 @@ const Chart2 = () => {
   };
 
   return (
-    <div className={styles["warp-chart"]} style={{ justifyContent: "space-around" }}>
-      <Pie {...config2} />
-      <Pie {...config1} />
+    <>
+      <div className={styles["group-header"]}>
+      <h3>Répartition de votre mobilité</h3>
+      <div style={{display: 'flex', gap: 10}}>
+        <RangePicker
+          suffixIcon={false}
+          picker="month"
+          format="MMM"
+          style={{ width: 190 }}
+          // locale={locale}
+        />
+        <Select
+          options={[]}
+          style={{ minWidth: 190 }}
+        />
+      </div>
+    
     </div>
+      <div className={styles["warp-chart"]} style={{ justifyContent: "space-around" }}>
+        <Pie {...config2} />
+        <Pie {...config1} />
+      </div>
+    </>
   );
 };
 

@@ -28,26 +28,7 @@ const Dashboard = () => {
         </Row>
       </div>
       <div className={styles["dashboard-bottom"]}>
-        <div className={styles["group-header"]}>
-          <h3>Répartition de votre mobilité</h3>
-          <div style={{display: 'flex', gap: 10}}>
-          <RangePicker
-            suffixIcon={false}
-            picker="month"
-            format="MMM"
-            style={{ width: 190 }}
-            locale={locale}
-          />
-           <Select
-            options={[]}
-            style={{ minWidth: 190 }}
-          />
-          </div>
-         
-        </div>
-        <div>
-          <Chart2 />
-        </div>
+        <Chart2 />
       </div>
       <div className={styles["dashboard-bottom"]}>
         <div className={styles["group-header"]}>
