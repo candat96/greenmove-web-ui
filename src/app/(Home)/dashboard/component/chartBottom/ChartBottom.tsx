@@ -1,6 +1,7 @@
 import React from "react";
 import { Line } from "@ant-design/plots";
 import styles from "./style.module.scss";
+import { Co2, Plane, Transport3, Transport4, Transport5 } from "@/assets/svg";
 
 function getRandomNumber() {
   return Math.floor(Math.random() * 100) + 1;
@@ -97,28 +98,66 @@ const ChartBottom = () => {
   return (
     <div className={styles["warp-chart"]}>
       <div className={styles["chart"]}>
-        <h2 className={styles["chart-title-vertical"]}>Emission de CO2 (tones)</h2>
-        <Line {...config} style={{height: 300}} />
+        <h2 className={styles["chart-title-vertical"]}>
+          Emission de CO2 (tones)
+        </h2>
+        <Line {...config} style={{ height: 300 }} />
       </div>
       <div className={styles["group-type"]}>
         <p className={styles["type"]}>
-          <span className={styles["dot"]} style={{ backgroundColor: "#010101" }}></span>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <span
+              className={styles["dot"]}
+              style={{ backgroundColor: "#010101" }}
+            ></span>
+           <Co2/>
+          </div>
+
           <span>Emission totales</span>
         </p>
         <p className={styles["type"]}>
-          <span className={styles["dot"]} style={{ backgroundColor: "#FF1C1C" }}></span>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <span
+              className={styles["dot"]}
+              style={{ backgroundColor: "#FF1C1C" }}
+            ></span>
+          <Plane/>
+          </div>
+
           <span>Par avion</span>
         </p>
         <p className={styles["type"]}>
-          <span className={styles["dot"]} style={{ backgroundColor: "#FF992C" }}></span>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <span
+              className={styles["dot"]}
+              style={{ backgroundColor: "#FF992C" }}
+            ></span>
+
+          <Transport3/>
+          </div>
+
           <span>Par voiture individuelle</span>
         </p>
         <p className={styles["type"]}>
-          <span className={styles["dot"]} style={{ backgroundColor: "#82EB99" }}></span>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <span
+              className={styles["dot"]}
+              style={{ backgroundColor: "#82EB99" }}
+            ></span>
+             <Transport4/>
+          </div>
+
           <span>Par transport en commun</span>
         </p>
         <p className={styles["type"]}>
-          <span className={styles["dot"]} style={{ backgroundColor: "#0E5F12" }}></span>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <span
+              className={styles["dot"]}
+              style={{ backgroundColor: "#0E5F12" }}
+            ></span>
+             <Transport5/>
+          </div>
+
           <span>Par covoiturage</span>
         </p>
       </div>
