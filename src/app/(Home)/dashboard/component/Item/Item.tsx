@@ -7,18 +7,19 @@ export type ItemType = {
   total: string;
   percent: number;
   increase: boolean;
+  unit: string;
 };
 const Item = (prop: ItemType) => {
-  const { header, total, percent, increase } = prop;
+  const { header, total, percent, increase, unit } = prop;
   return (
     <div className={styles["item"]}>
       <h2>{header}</h2>
       <div className={styles["item-left"]}>
         <h3>
-          {total} <span>CO2e</span>
+          {total} <span>{unit}</span>
         </h3>
 
-        {increase ? (
+        {/* {increase ? (
           <h5>
             <AroundUp /> {percent} %
           </h5>
@@ -26,7 +27,7 @@ const Item = (prop: ItemType) => {
           <h4>
             <AroundDown /> {percent} %
           </h4>
-        )}
+        )} */}
       </div>
     </div>
   );

@@ -1,77 +1,22 @@
 /* eslint-disable react/no-unescaped-entities */
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styles from "./style.module.scss";
 import { Col, DatePicker, Row, Select } from "antd";
-import Image from "next/image";
-import { BackGroundCo2 } from "@/assets/img";
-import { AroundDown } from "@/assets/svg";
-import Item, { ItemType } from "./component/Item/Item";
 import { Chart } from "./component/chart/Chart";
 import ChartBottom from "./component/chartBottom/ChartBottom";
 import locale from "antd/es/date-picker/locale/en_US";
 import Chart2 from "./component/chart2/ChartBottom";
+import DashboardTopLeft from "./component/DashboardTopLeft/DashboardTopLeft";
 
 const { RangePicker } = DatePicker;
 const Dashboard = () => {
-  const [listItem, setList] = useState<ItemType[]>([]);
-  useEffect(() => {
-    setList([
-      {
-        header: "Moyenne  par délégation",
-        total: "2,399t",
-        percent: 10,
-        increase: false,
-      },
-      {
-        header: "Émission dépassant la limite fixée",
-        total: "2,399t",
-        percent: 10,
-        increase: true,
-      },
-      {
-        header: "Total cible",
-        total: "2,399t",
-        percent: 10,
-        increase: false,
-      },
-    ]);
-  }, []);
-
   return (
     <div className={styles["wrap-dashboard"]}>
       <div className={styles["dashboard-top"]}>
         <Row gutter={[24, 24]}>
           <Col span={8}>
-            <div className={styles["dashboard-top__left"]}>
-              <div className={styles["left-top"]}>
-                <h2>Tableau de bord</h2>
-                <Image
-                  className={styles.co2}
-                  src={BackGroundCo2}
-                  alt="Decor Red"
-                  priority
-                />
-
-                <div className={styles["left-top-des"]}>
-                  <p className={styles["des-1"]}>CO2e</p>
-                  <h2 className={styles["des-2"]}>2,294,344t</h2>
-                  <h3 className={styles["des-3"]}>Émission totale de CO2</h3>
-                  <div className={styles["des-4"]}>
-                    <AroundDown />
-                    <p>12%</p>
-                    <p>Inférieur à l'année précédente</p>
-                  </div>
-                </div>
-              </div>
-              <div className={styles["left-list"]}>
-                {listItem?.map((obj, index) => (
-                  <div key={index}>
-                    <Item {...obj} />
-                  </div>
-                ))}
-              </div>
-            </div>
+            <DashboardTopLeft />
           </Col>
           <Col span={16}>
             <div className={styles["dashboard-top__right"]}>

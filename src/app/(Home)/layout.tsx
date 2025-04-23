@@ -9,7 +9,7 @@ import { useSession, signOut } from "next-auth/react";
 import { LoadingScreen } from "@/components";
 import { navigateMenu } from "@/lib/data";
 import Link from "next/link";
-import { PoweroffOutlined } from "@ant-design/icons";
+import { PoweroffOutlined  } from "@ant-design/icons";
 
 const HomeLayout: React.FC = ({ children }: React.PropsWithChildren) => {
 

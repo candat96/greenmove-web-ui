@@ -20,8 +20,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={geistManrope.className}>
+    <html lang="en" suppressHydrationWarning>
+      <body className={geistManrope.className} style={{ backgroundColor : "white"}}>
         <AntdProvider>
           <NextAuthProvider>
             {children}
