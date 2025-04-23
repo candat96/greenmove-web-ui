@@ -1,14 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import { Table } from "antd";
+import { useState } from "react";
 import styles from "./styles.module.scss";
-import locale from "antd/es/date-picker/locale/en_US";
-import { DatePicker, Pagination, Table, Input } from "antd";
-import { Plus } from "@/assets/svg";
 import { useCompany } from "./useCompany";
 
-const { RangePicker } = DatePicker;
-const { Search } = Input;
 
 const columns = [
   {

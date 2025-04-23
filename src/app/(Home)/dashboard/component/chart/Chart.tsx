@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from "react";
 import styles from "./styles.module.scss";
 import { DatePicker } from "antd";
@@ -9,8 +10,16 @@ import { getCompanyCO2Statistics, CompanyData } from "@/services/report";
 
 const { RangePicker } = DatePicker;
 
+type DataChartCo2 = {
+  month: string;
+  value: number;
+  type: string;
+}
+
+
 export const Chart = () => {
   const [dataChart2, setDataChart2] = useState<ItemProps[]>([]);
+  const [dataChartCo2, setDataChartCo2] = useState<DataChartCo2[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [dateRange, setDateRange] = useState<[dayjs.Dayjs, dayjs.Dayjs]>([
     dayjs().startOf('month'), // Ngày đầu tiên của tháng hiện tại
@@ -18,7 +27,7 @@ export const Chart = () => {
   ]);
 
   const config = {
-    data : dataMock,
+    data : dataChartCo2,
     xField: "month",
     yField: "value",
     seriesField:'type',
@@ -79,7 +88,15 @@ export const Chart = () => {
             color: company.companyId === "other" ? "#6B7280" : colors[index % colors.length],
           };
         });
-        
+
+        const dataChartCo2 = companiesToShow.map((company: CompanyData) => ({
+          month: company.companyName,
+          value: company.totalCo2,
+          type: company.companyName,
+        }));
+
+
+        setDataChartCo2(dataChartCo2);
         setDataChart2(formattedData);
       }
     } catch (error) {
@@ -133,29 +150,3 @@ export const Chart = () => {
     </div>
   );
 };
-const dataMock = [
-  { month: "Jan", value: 10, type: "Mr.pip" },
-  { month: "Jan", value: 20, type: "Mr.pap" },
-  { month: "Jan", value: 30, type: "Mr.pup" },
-  { month: "Jan", value: 10, type: "Mr.hup" },
-
-  { month: "Feb", value: 12, type: "Mr.pip" },
-  { month: "Feb", value: 2, type: "Mr.pap" },
-  { month: "Feb", value: 3, type: "Mr.pup" },
-  { month: "Feb", value: 40, type: "Mr.hup" },
-
-  { month: "Mar", value: 11, type: "Mr.pip" },
-  { month: "Mar", value: 22, type: "Mr.pap" },
-  { month: "Mar", value: 33, type: "Mr.pup" },
-  { month: "Mar", value: 4, type: "Mr.hup" },
-
-  { month: "Apr", value: 20, type: "Mr.pip" },
-  { month: "Apr", value: 21, type: "Mr.pap" },
-  { month: "Apr", value: 22, type: "Mr.pup" },
-  { month: "Apr", value: 23, type: "Mr.hup" },
-
-  { month: "May", value: 10, type: "Mr.pip" },
-  { month: "May", value: 11, type: "Mr.pap" },
-  { month: "May", value: 29, type: "Mr.pup" },
-  { month: "May", value: 5, type: "Mr.hup" },
-];
