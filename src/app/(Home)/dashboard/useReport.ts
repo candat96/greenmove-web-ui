@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { getReportByCompany, getReportByType, getTotalReport, ReportData, ReportByTypeData, ReportByCompanyData } from '@/services/report';
+import { getTotalReport, ReportData, ReportByTypeData, ReportByCompanyData } from '@/services/report';
 import { Pagination } from '@/services/types';
 
 export const useReport = () => {
@@ -29,43 +29,7 @@ export const useReport = () => {
     }
   }, [dateRange]);
 
-  const fetchTypeReport = useCallback(async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      
-      const params = dateRange 
-        ? { startDate: dateRange[0], endDate: dateRange[1] } 
-        : undefined;
-        
-      const response = await getReportByType(params);
-      setTypeReport(response.data);
-    } catch (error) {
-      console.error("Lỗi khi lấy dữ liệu theo loại:", error);
-      setError("Không thể tải dữ liệu theo loại phương tiện");
-    } finally {
-      setLoading(false);
-    }
-  }, [dateRange]);
-
-  const fetchCompanyReport = useCallback(async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      
-      const params = dateRange 
-        ? { startDate: dateRange[0], endDate: dateRange[1] } 
-        : undefined;
-        
-      const response = await getReportByCompany(params);
-      setCompanyReport(response.data);
-    } catch (error) {
-      console.error("Lỗi khi lấy dữ liệu theo công ty:", error);
-      setError("Không thể tải dữ liệu theo công ty");
-    } finally {
-      setLoading(false);
-    }
-  }, [dateRange]);
+ 
 
   const fetchAllReports = useCallback(async () => {
     setLoading(true);
@@ -74,8 +38,6 @@ export const useReport = () => {
     try {
       await Promise.all([
         fetchTotalReport(),
-        fetchTypeReport(),
-        fetchCompanyReport()
       ]);
     } catch (error) {
       console.error("Lỗi khi tải dữ liệu:", error);
@@ -83,7 +45,7 @@ export const useReport = () => {
     } finally {
       setLoading(false);
     }
-  }, [fetchTotalReport, fetchTypeReport, fetchCompanyReport]);
+  }, [fetchTotalReport]);
 
   const handleDateRangeChange = (dates: [string, string] | null) => {
     setDateRange(dates);
@@ -102,8 +64,6 @@ export const useReport = () => {
     dateRange,
     handleDateRangeChange,
     fetchTotalReport,
-    fetchTypeReport,
-    fetchCompanyReport,
     fetchAllReports
   };
 }; 
