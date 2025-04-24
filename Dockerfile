@@ -19,8 +19,6 @@ RUN yarn build -- --no-lint
 # Dùng image nhỏ hơn để chạy ứng dụng sau khi build
 FROM node:20-alpine AS runner
 
-# Đặt biến môi trường NODE_ENV là 'production'
-ENV NODE_ENV=production
 
 # Thiết lập thư mục làm việc
 WORKDIR /app
