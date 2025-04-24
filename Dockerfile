@@ -13,6 +13,8 @@ RUN yarn install --frozen-lockfile
 # Sao chép tất cả các tệp của dự án vào container
 COPY . .
 
+ENV NODE_ENV production
+
 # Build ứng dụng Next.js
 RUN yarn build -- --no-lint
 

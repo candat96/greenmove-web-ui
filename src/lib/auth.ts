@@ -86,7 +86,7 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: '/login',
   },
-  secret: 'ANC@!@#$$',
+  secret: process.env.NEXTAUTH_SECRET as string,
   providers: [
     CredentialsProvider({
       name: "credentials",
