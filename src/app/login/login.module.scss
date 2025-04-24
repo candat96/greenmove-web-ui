@@ -50,7 +50,42 @@
         img {
             width: 100%;
             height: auto;
-            margin-bottom: 30px;
+            // margin-bottom: 30px;
+        }
+        .form {
+            width: 100%;
+            margin-top: 20px;
+            .emailInput {
+                border-color: transparent;
+                height: 50px;
+                background: rgba(243, 250, 255, 1);
+                font-weight: 500;
+                &:hover {
+                    border-color: #185b96;
+                }
+                &:focus-within {
+                    border-color: #004489;
+                }
+            }
+            .pwdInput {
+                border-color: transparent;
+                height: 50px;
+                background: rgba(243, 250, 255, 1);
+                :global(.ant-input) {
+                    background: rgba(243, 250, 255, 1);
+                    font-weight: 500;
+                }
+                &:hover {
+                    border-color: #185b96;
+                }
+                &:focus-within {
+                    border-color: #004489;
+                }
+                svg {
+                    color: #000;
+                    font-size: 16px;
+                }
+            }
         }
     }
 }

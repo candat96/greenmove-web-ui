@@ -9,7 +9,7 @@ import { useSession, signOut } from "next-auth/react";
 import { LoadingScreen } from "@/components";
 import { navigateMenu } from "@/lib/data";
 import Link from "next/link";
-import { PoweroffOutlined  } from "@ant-design/icons";
+import { PoweroffOutlined } from "@ant-design/icons";
 
 const HomeLayout: React.FC = ({ children }: React.PropsWithChildren) => {
 
@@ -63,7 +63,7 @@ const HomeLayout: React.FC = ({ children }: React.PropsWithChildren) => {
                             style={{ backgroundColor: '#234B8E' }}
                             size={38}
                         >
-                            {session.user?.name?.split(" ").pop()[0]}
+                            {(session.user?.name || session.user?.email)?.split(" ").pop()[0]}
                         </Avatar>
                     </Popover>
                 </header>
