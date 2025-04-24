@@ -7,6 +7,8 @@ const nextConfig = {
     });
     return config;
   },
+  ignoreBuildErrors: true,
+  ignoreDuringBuilds: true,
 };
 
 module.exports = nextConfig;

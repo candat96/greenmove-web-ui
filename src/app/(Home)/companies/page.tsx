@@ -54,7 +54,7 @@ const columns = [
 ];
 
 const Companies = () => {
-  const { companies, pagination, search, setSearch, loading, fetchData, onChangePagination } = useCompany();
+  const { companies, setSearch, loading} = useCompany();
   const [dateRange, setDateRange] = useState<[string, string] | null>(null);
 
   const handleSearch = (value: string) => {

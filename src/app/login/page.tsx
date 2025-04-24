@@ -29,7 +29,7 @@ const Login: React.FC = () => {
                 notification.success({ message: 'Success', duration: 0.5 });
                 router.push('/dashboard');
             } else {
-                notification.error({ message: 'Login failed !' });
+                // notification.error({ message: 'Login failed !' });
                 setLoading(false)
             }
         } else {
