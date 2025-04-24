@@ -78,14 +78,14 @@ const Login: React.FC = () => {
                             <Form.Item
                                 name={'email'}
                                 label={'Email'}
-                                rules={[{ required: true }]}
+                                rules={[{ required: true, message: "" }]}
                             >
                                 <Input placeholder='Email' className={styles.emailInput} />
                             </Form.Item>
                             <Form.Item
                                 name={'password'}
                                 label={"Mot de passe"}
-                                rules={[{ required: true }]}
+                                rules={[{ required: true, message: "" }]}
                             >
                                 <Input.Password placeholder="Mot de passe" className={styles.pwdInput} />
                             </Form.Item>
