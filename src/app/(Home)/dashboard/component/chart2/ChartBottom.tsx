@@ -133,12 +133,20 @@ const Chart2 = () => {
   const getVehicleTypeText = (vehicleType: string): string => {
     const types: { [key: string]: string } = {
       CAR: "Voiture",
-      CARPOOLING: "Covoiturage",
-      WALKING: "À pied",
+      CAR_POOL: "Covoiturage",
+      BICYCLE: "Vélo",
       CYCLING: "Vélo",
-      PUBLIC_TRANSPORT: "Transport public",
+      BUS: "Bus",
+      TRAIN: "Train",
+      MOTORCYCLE: "Moto",
+      OTHER: "Autre",
+      WALKING: "À pied",
+      RUNNING: "Course à pied",
+      SUBWAY_TRANWAY: "Métro/Tramway",
+      SCOOTER: "Trottinette",
+      ELECTRIC_BIKE: "Vélo électrique",
       PLANE: "Avion",
-      OTHER: "Autre"
+      PUBLIC_TRANSPORT: "Transport public"
     };
     return types[vehicleType] || vehicleType;
   };
