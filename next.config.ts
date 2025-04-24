@@ -8,7 +8,7 @@ const nextConfig = {
     return config;
   },
   ignoreBuildErrors: true,
-  reactStrictMode: true
+  ignoreDuringBuilds: true,
 };
 
 module.exports = nextConfig;

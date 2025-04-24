@@ -3,14 +3,14 @@ import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 // import { cookies } from 'next/headers';
 
-// declare module "next-auth" {
-//   interface Session {
-//     accessToken?: string;
-//     idToken?: string;
-//     token?: string;
-//     refreshToken?: string;
-//   }
-// }
+declare module "next-auth" {
+  interface Session {
+    accessToken?: string;
+    idToken?: string;
+    token?: string;
+    refreshToken?: string;
+  }
+}
 
 // declare module "next-auth/jwt" {
 //   interface JWT {

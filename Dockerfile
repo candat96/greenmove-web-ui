@@ -1,48 +1,38 @@
-# Stage 1: Build stage
-FROM node:20-alpine AS build
+# Sử dụng image node chính thức
+FROM node:20-alpine AS builder
 
 # Đặt thư mục làm việc
 WORKDIR /app
 
-# Sao chép package.json và package-lock.json
-COPY package.json package-lock.json* ./
+# Sao chép package.json và yarn.lock vào container
+COPY package.json ./
 
-# Cài đặt dependencies
-RUN npm i
+# Cài đặt các dependencies
+RUN yarn install --frozen-lockfile
 
-# Sao chép source code
+# Sao chép tất cả các tệp của dự án vào container
 COPY . .
 
-# Build ứng dụng
-RUN npm run build -- --no-lint
+# Build ứng dụng Next.js
+RUN yarn build -- --no-lint
 
-# Stage 2: Production stage
+# Dùng image nhỏ hơn để chạy ứng dụng sau khi build
 FROM node:20-alpine AS runner
 
+# Đặt biến môi trường NODE_ENV là 'production'
+ENV NODE_ENV=production
+
+# Thiết lập thư mục làm việc
 WORKDIR /app
 
-# Tạo người dùng không phải root
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
+# Sao chép các tệp cần thiết từ quá trình build trước
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./package.json
 
-# Sao chép các file cần thiết
-COPY --from=build /app/next.config.js ./
-COPY --from=build /app/public ./public
-COPY --from=build /app/package.json ./package.json
-
-# Sao chép thư mục build
-COPY --from=build --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=build --chown=nextjs:nodejs /app/.next/static ./.next/static
-
-# Chuyển đổi sang người dùng không phải root
-USER nextjs
-
-# Mở cổng 3000
+# Lắng nghe trên cổng 3000
 EXPOSE 3000
 
-# Đặt biến môi trường
-ENV PORT 3000
-ENV NODE_ENV production
-
-# Chạy ứng dụng
-CMD ["node", "server.js"]
+# Lệnh chạy ứng dụng Next.js
+CMD ["yarn", "start"]

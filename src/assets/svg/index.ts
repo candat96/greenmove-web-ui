@@ -9,7 +9,7 @@ import AroundUp from './aroundUp.svg';
 import Flag from './Flag.svg';
 import Plus from './Plus.svg';
 
-import Co2 from './co2.svg';
+import Co2 from './Co2.svg';
 import Plane from './Plane.svg';
 import Transport3 from './Transport3.svg';
 import Transport4 from './Transport4.svg';
