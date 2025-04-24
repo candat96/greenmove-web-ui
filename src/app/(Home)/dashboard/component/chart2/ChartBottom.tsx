@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from "react";
 import styles from "./style.module.scss";
 import { Pie } from "@ant-design/plots";
@@ -13,6 +14,23 @@ interface PieChartItem {
   value: number;
   hours?: string;
   distance?: string;
+}
+
+export enum TripVehicle {
+  CAR = 'CAR',
+  CAR_POOL = 'CAR_POOL',
+  BICYCLE = 'BICYCLE',
+  BUS = 'BUS',
+  TRAIN = 'TRAIN',
+  MOTORCYCLE = 'MOTORCYCLE',
+  OTHER = 'OTHER',
+  WALKING = 'WALKING',
+  RUNNING = 'RUNNING',
+  SUBWAY_TRANWAY = 'SUBWAY_TRANWAY',
+  SCOOTER = 'SCOOTER',
+  ELECTRIC_BIKE = 'ELECTRIC_BIKE',
+  PLANE = 'PLANE',
+  PUBLIC_TRANSPORT = 'PUBLIC_TRANSPORT',
 }
 
 const Chart2 = () => {
@@ -77,9 +95,15 @@ const Chart2 = () => {
               type: getVehicleTypeText(stat.vehicleType),
               value: percentage,
               distance: stat.totalDistance.toFixed(2)
+              // hours: 22
             };
           });
-          setDistanceData(distanceChartData);
+
+          setDistanceData(distanceChartData?.map((item: any) => ({
+            type: item.type,
+            value: item.value,
+            distance: item.distance,
+          })));
         }
 
         if (durationResponse.data?.vehicleStats) {
@@ -134,6 +158,15 @@ const Chart2 = () => {
     colorField: "type",
     radius: 1,
     innerRadius: 0.3,
+    color: [
+      '#1890ff', // Voiture
+      '#52c41a', // Covoiturage
+      '#faad14', // À pied
+      '#722ed1', // Vélo
+      '#eb2f96', // Transport public
+      '#13c2c2', // Avion
+      '#f5222d', // Autre
+    ],
     label: {
       type: "inner",
       offset: "-50%",
@@ -177,6 +210,7 @@ const Chart2 = () => {
       },
     ],
     statistic: {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       title: false as any,
       content: {
         style: {
@@ -205,9 +239,19 @@ const Chart2 = () => {
     colorField: "type",
     radius: 1,
     innerRadius: 0.3,
+    color: [
+      '#1890ff', // Voiture
+      '#52c41a', // Covoiturage
+      '#faad14', // À pied
+      '#722ed1', // Vélo
+      '#eb2f96', // Transport public
+      '#13c2c2', // Avion
+      '#f5222d', // Autre
+    ],
     label: {
       type: "inner",
       offset: "-50%",
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       formatter: (datum: any) => {
         return `${datum.value}%`;
       },
@@ -248,6 +292,7 @@ const Chart2 = () => {
       },
     ],
     statistic: {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       title: false as any,
       content: {
         style: {
@@ -311,12 +356,12 @@ const Chart2 = () => {
           </div>
         ) : (
           <>
-            <div style={{ textAlign: "center" }}>
-              <h4>Distance</h4>
+            <div style={{ textAlign: "center", width: "600px" }}>
+              <h4 style={{ transform: "translateX(-45px)", color: "#234b8e" }}>Distance</h4>
               <Pie {...distanceConfig} />
             </div>
-            <div style={{ textAlign: "center" }}>
-              <h4>Durée</h4>
+            <div style={{ textAlign: "center", width: "600px" }}>
+              <h4 style={{ transform: "translateX(-45px)", color: "#234b8e" }}>Durée</h4>
               <Pie {...durationConfig} />
             </div>
           </>
