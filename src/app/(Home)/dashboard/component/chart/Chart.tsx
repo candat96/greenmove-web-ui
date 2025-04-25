@@ -16,6 +16,7 @@ type DataChartCo2 = {
   type: string;
 }
 
+const colors = ["#3B82F6", "#10B981", "#7EF6DE", "#C4B5FD", "#F87171", "#FBBF24", "#60A5FA", "#9CA3AF", "#EC4899", "#8B5CF6", "#6B7280"];
 
 export const Chart = () => {
   const [dataChart2, setDataChart2] = useState<ItemProps[]>([]);
@@ -32,9 +33,14 @@ export const Chart = () => {
     yField: "value",
     seriesField:'type',
     isStack: true,
-    color: ['#93F0DA','#10B981','#3B82F6','#C4B5FD'],
+    color: colors,
     maxColumnWidth:80,
-    legend: { visible: false }
+    legend: { visible: false },
+    xAxis: {
+      label: {
+        formatter: () => ''
+      }
+    }
   };
 
   const fetchCompaniesData = async (startDate: string, endDate: string) => {
@@ -78,7 +84,6 @@ export const Chart = () => {
         // Chuyển đổi dữ liệu từ API sang định dạng ItemProps
         const formattedData = companiesToShow.map((company: CompanyData, index: number) => {
           // Định nghĩa các màu theo thứ tự
-          const colors = ["#3B82F6", "#10B981", "#7EF6DE", "#C4B5FD", "#F87171", "#FBBF24", "#60A5FA", "#9CA3AF", "#EC4899", "#8B5CF6", "#6B7280"];
           const percent = totalCO2 > 0 ? Math.round((company.totalCo2 / totalCO2) * 100) : 0;
           
           return {
@@ -88,11 +93,12 @@ export const Chart = () => {
             color: company.companyId === "other" ? "#6B7280" : colors[index % colors.length],
           };
         });
-
-        const dataChartCo2 = companiesToShow.map((company: CompanyData) => ({
+       
+        const dataChartCo2 = companiesToShow.map((company: CompanyData, index: number) => ({
           month: company.companyName,
           value: company.totalCo2,
           type: company.companyName,
+          color: colors[index % colors.length]
         }));
 
 
