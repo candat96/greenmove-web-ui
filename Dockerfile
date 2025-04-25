@@ -15,6 +15,7 @@ COPY . .
 
 ENV NODE_ENV production
 
+
 # Build ứng dụng Next.js
 RUN yarn build -- --no-lint
 
@@ -33,6 +34,9 @@ COPY --from=builder /app/package.json ./package.json
 
 # Lắng nghe trên cổng 3000
 EXPOSE 3000
+
+# Set environment variables for runtime
+ENV BASE_URI=${BASE_URI}
 
 # Lệnh chạy ứng dụng Next.js
 CMD ["yarn", "start"]
