@@ -4,7 +4,7 @@ import styles from "./style.module.scss";
 import { Co2, Transport3, Transport4, Transport5 } from "@/assets/svg";
 import { getVehicleCO2Daily, VehicleCO2DailyResponse } from "@/services/report";
 import dayjs from "dayjs";
-import { DatePicker } from "antd";
+import { DatePicker, Select } from "antd";
 import locale from "antd/es/date-picker/locale/en_US";
 
 const { RangePicker } = DatePicker;
@@ -57,10 +57,11 @@ const ChartBottom = () => {
     dayjs().subtract(1, 'month').startOf('month'),
     dayjs().endOf('month')
   ]);
+  const [period, setPeriod] = useState<string>("daily");
 
   useEffect(() => {
     fetchData();
-  }, [dateRange]);
+  }, [dateRange, period]);
 
   const fetchData = async () => {
     setIsLoading(true);
@@ -68,8 +69,10 @@ const ChartBottom = () => {
       const startDate = dateRange[0].format('YYYY-MM-DD');
       const endDate = dateRange[1].format('YYYY-MM-DD');
       
-      const response = await getVehicleCO2Daily(startDate, endDate);
-      if (response.status === 200 && response.data) {
+      const response = await getVehicleCO2Daily(startDate, endDate, period );
+     
+      if (response.data) {
+       
         processChartData(response.data);
       }
     } catch (error) {
@@ -82,6 +85,7 @@ const ChartBottom = () => {
   const processChartData = (responseData: VehicleCO2DailyResponse) => {
     const chartData: Array<{month: string; value: number; type: string}> = [];
     const { dailyStats, vehicles } = responseData;
+    console.log(`responseData`, responseData);
     
     // Create a map to aggregate data by month for each vehicle type
     const monthlyData: Record<string, Record<string, { totalCo2: number, count: number }>> = {};
@@ -94,7 +98,9 @@ const ChartBottom = () => {
           if (day.totalCo2 === 0 && day.totalDistance === 0) return;
           
           const date = dayjs(day.timeGroup);
-          const monthKey = date.format("MMM"); // Get month name (Jan, Feb, etc.)
+          const formatDefault = period === "daily" ? "DD/MM" : period === "weekly" ? "wo" : "MM/YYYY";
+
+          const monthKey = date.format(formatDefault); // Get month name (Jan, Feb, etc.)
           
           const displayType = getDisplayType(vehicleType);
           
@@ -129,6 +135,8 @@ const ChartBottom = () => {
         });
       });
     });
+
+    console.log(`chartData`, chartData);
     
     setData(chartData);
   };
@@ -158,7 +166,28 @@ const ChartBottom = () => {
     <div className={styles["warp-chart"]} style={{flexDirection: "column"}}>
       <div className={styles["chart-header"]} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px", width: "100%" }}>
         <h3>Émission de carbone par type de transport</h3>
-        <RangePicker
+       <div>
+        <Select
+          value={period}
+          options={[
+            {
+              label: "Daily",
+              value: "daily"
+            },
+            // {
+            //   label: "Week",
+            //   value: "weekly"
+            // },
+            {
+              label: "Month",
+              value: "monthly"
+            }
+          ]}
+          onChange={(value) => {
+            setPeriod(value);
+          }}
+        />
+       <RangePicker
           suffixIcon={false}
           picker="month"
           format="MMM"
@@ -167,6 +196,7 @@ const ChartBottom = () => {
           locale={locale}
           style={{ width: 190 }}
         />
+       </div>
       </div>
       <div style={{display: "flex", width: "100%", gap: 20}}>
       <div className={styles["chart"]}>
