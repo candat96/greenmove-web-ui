@@ -13,7 +13,7 @@ class Axios {
 
   constructor() {
     const instance = axios.create({
-      baseURL: 'https://movegreen.datcv.io.vn/api',
+      baseURL: process.env.BASE_URI,
     })
 
     // Request interceptor to add token
