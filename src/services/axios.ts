@@ -13,7 +13,7 @@ class Axios {
 
   constructor() {
     const instance = axios.create({
-      baseURL: process.env.BASE_URI as string,
+      baseURL: 'http://40.66.49.72:4869/api',
     })
 
     // Request interceptor to add token
