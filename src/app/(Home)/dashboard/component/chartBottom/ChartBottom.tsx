@@ -113,7 +113,7 @@ const ChartBottom = () => {
            <Co2/>
           </div>
 
-          <span>Emission totales</span>
+          <span style={{color: '#010101'}}>Emission totales</span>
         </p>
         <p className={styles["type"]}>
           <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
@@ -124,7 +124,7 @@ const ChartBottom = () => {
           <Plane/>
           </div>
 
-          <span>Par avion</span>
+          <span style={{ color: "#010101" }}>Par avion</span>
         </p>
         <p className={styles["type"]}>
           <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
@@ -136,7 +136,7 @@ const ChartBottom = () => {
           <Transport3/>
           </div>
 
-          <span>Par voiture individuelle</span>
+          <span style={{ color: "#010101" }}>Par voiture individuelle</span>
         </p>
         <p className={styles["type"]}>
           <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
@@ -147,7 +147,7 @@ const ChartBottom = () => {
              <Transport4/>
           </div>
 
-          <span>Par transport en commun</span>
+          <span style={{ color: "#010101" }}>Par transport en commun</span>
         </p>
         <p className={styles["type"]}>
           <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
@@ -158,7 +158,7 @@ const ChartBottom = () => {
              <Transport5/>
           </div>
 
-          <span>Par covoiturage</span>
+          <span style={{ color: "#010101" }}>Par covoiturage</span>
         </p>
       </div>
     </div>
