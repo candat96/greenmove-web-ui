@@ -78,6 +78,25 @@ export interface CompanyVehicleDurationStats {
   vehicleStats: VehicleStats[];
 }
 
+export interface VehicleCO2DailyResponse {
+  totalUsers: number;
+  startDate: string;
+  endDate: string;
+  groupBy: string;
+  totalCo2: number;
+  totalDistance: number;
+  totalTrips: number;
+  vehicles: string[];
+  dailyStats: {
+    [vehicleType: string]: Array<{
+      timeGroup: string;
+      totalCo2: number;
+      totalDistance: number;
+      tripCount: number;
+    }>;
+  };
+}
+
 export const getTotalReport = async (data?: QueryObject) => {
   return await axiosInstance.get<QueryObject, APIResponse<ReportData>>(
     `/reports/total`,
@@ -137,6 +156,18 @@ export const getCompanyVehicleDurationStats = async (
         endDate,
         groupBy
       } 
+    }
+  )
+}
+
+export const getVehicleCO2Daily = async (startDate: string, endDate: string) => {
+  return await axiosInstance.get<QueryObject, APIResponse<VehicleCO2DailyResponse>>(
+    `/reports/co2-by-vehicle-daily`,
+    {
+      params: {
+        startDate,
+        endDate,
+      }
     }
   )
 } 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { HttpStatusCode } from "axios";
 
 export interface CommonResponse<T> {
@@ -7,6 +8,7 @@ export interface CommonResponse<T> {
 export type QueryObject = { [key: string]: any };
 
 export interface APIResponse<T = any> {
+  status: number;
   statusCode: HttpStatusCode;
   data: T;
   pagination?: Pagination;
