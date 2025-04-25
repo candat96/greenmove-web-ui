@@ -2,10 +2,9 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import styles from "./style.module.scss";
-import { Avatar as AntAvatar, Col, DatePicker, Row, Select, Table } from "antd";
+import { Avatar as AntAvatar, Col, Row, Select, Table } from "antd";
 import { Chart } from "./component/chart/Chart";
 import ChartBottom from "./component/chartBottom/ChartBottom";
-import locale from "antd/es/date-picker/locale/en_US";
 import Chart2 from "./component/chart2/ChartBottom";
 import DashboardTopLeft from "./component/DashboardTopLeft/DashboardTopLeft";
 import { Up } from "@/assets/svg";
@@ -100,9 +99,9 @@ const Dashboard = () => {
       key: 'totalCo2',
     },
     {
-      title: 'Score',
-      dataIndex: 'totalPoints',
-      key: 'totalPoints',
+      title: 'Average Score',
+      dataIndex: 'averagePoints',
+      key: 'averagePoints',
       render: (score) => {
         return <div style={{
           color: "#10B981"

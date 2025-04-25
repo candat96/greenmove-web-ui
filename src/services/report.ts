@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import axiosInstance from "./axios"
 import { APIResponse, QueryObject } from "./types"
 
@@ -105,7 +106,7 @@ export const getTotalReport = async (data?: QueryObject) => {
 }
 
 
-export const getCompanyCO2Statistics = async (startDate: string, endDate: string, groupBy: 'daily' | 'weekly' | 'monthly' = 'daily') => {
+export const getCompanyCO2Statistics = async (startDate: string, endDate: string, groupBy?: string) => {
   return await axiosInstance.get<QueryObject, APIResponse<CompanyCO2StatisticsResponse>>(
     `/reports/company-co2-statistics`,
     { 
@@ -160,13 +161,14 @@ export const getCompanyVehicleDurationStats = async (
   )
 }
 
-export const getVehicleCO2Daily = async (startDate: string, endDate: string) => {
+export const getVehicleCO2Daily = async (startDate: string, endDate: string, period: string) => {
   return await axiosInstance.get<QueryObject, APIResponse<VehicleCO2DailyResponse>>(
     `/reports/co2-by-vehicle-daily`,
     {
       params: {
         startDate,
         endDate,
+        groupBy: period
       }
     }
   )
