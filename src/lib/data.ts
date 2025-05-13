@@ -1,8 +1,8 @@
-
 export const navigateMenu = [
     { link: "/dashboard", label: "Tableau de bord" },
     { link: "/companies", label: "Délégation" },
     { link: "/game", label: "Eco-concours" },
+    { link: "/co2-setting", label: "Paramètres CO2" },
 ]
 
 export const PositionList = [

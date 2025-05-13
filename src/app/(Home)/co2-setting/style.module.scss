@@ -1,0 +1,44 @@
+.container {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  h1, h2 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 24px;
+    color: #234B8E;
+  }
+
+  .card {
+    margin-bottom: 24px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.wrap-co2-setting {
+  padding: 10px;
+  background-color: white;
+  
+  .wrap-header {
+    display: flex;
+    justify-content: space-between;
+    
+    >h2 {
+      font-size: 32px;
+      font-weight: 700;
+      color: #234B8E;
+    }
+  }
+
+  .wrap-body {
+    margin-top: 24px;
+
+    .table {
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid #E9E9E9;
+    }
+  }
+} 
