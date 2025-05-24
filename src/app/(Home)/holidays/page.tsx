@@ -6,6 +6,7 @@ import axiosInstance from "@/services/axios";
 import type { FormInstance } from "antd/es/form";
 import dayjs from "dayjs";
 import { PlusOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import type { AlignType } from 'rc-table/lib/interface';
 
 interface Holiday {
   id: string;
@@ -181,6 +182,7 @@ const HolidaysContent = () => {
     {
       title: 'Actions',
       key: 'action',
+      align: 'right' as AlignType,
       render: (_: any, record: Holiday) => (
         <Space>
           <Button 
