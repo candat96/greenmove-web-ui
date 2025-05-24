@@ -136,7 +136,7 @@ const CO2SettingPage = () => {
       title: "Facteur d'émission",
       dataIndex: 'emissionFactor',
       key: 'emissionFactor',
-      render: (text: string) => text + ' kg/km',
+      render: (text: string) => text + ' g/km',
     },
     {
       title: 'Description',

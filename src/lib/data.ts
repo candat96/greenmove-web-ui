@@ -3,6 +3,7 @@ export const navigateMenu = [
     { link: "/companies", label: "Délégation" },
     { link: "/game", label: "Eco-concours" },
     { link: "/co2-setting", label: "Paramètres CO2" },
+    { link: "/holidays", label: "Jours fériés" },
 ]
 
 export const PositionList = [

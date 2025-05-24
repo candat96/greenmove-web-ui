@@ -1,0 +1,25 @@
+.wrap-holidays {
+  padding: 10px;
+  background-color: white;
+  
+  .wrap-header {
+    display: flex;
+    justify-content: space-between;
+    
+    >h2 {
+      font-size: 32px;
+      font-weight: 700;
+      color: #234B8E;
+    }
+  }
+
+  .wrap-body {
+    margin-top: 24px;
+
+    .table {
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid #E9E9E9;
+    }
+  }
+} 
