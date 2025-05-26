@@ -92,7 +92,7 @@ export const authOptions: NextAuthOptions = {
       name: "credentials",
       credentials: {},
       async authorize(credentials) {
-        const res = await fetch(`${process.env.BASE_URI}/admin/auth/login`, {
+        const res = await fetch(`http://40.66.49.72:4869/api/admin/auth/login`, {
           method: 'POST',
           body: JSON.stringify(credentials),
           headers: { "Content-Type": "application/json" }
