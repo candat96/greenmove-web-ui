@@ -4,7 +4,7 @@ import { useSession, signOut } from "next-auth/react";
 const useFetch = () => {
 
     const { data: session } = useSession();
-    const baseURL: string = 'http://40.66.49.72:4869/api'
+    const baseURL: string = process.env.NEXT_PUBLIC_BASE_URI
 
     const commonGET = async (url: string, params: URLSearchParams) => {
         const res = await fetch(`${baseURL + url}?` + new URLSearchParams(params).toString(), {
