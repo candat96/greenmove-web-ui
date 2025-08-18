@@ -5,7 +5,7 @@ const useFetch = () => {
 
     const { data: session } = useSession();
     const baseURL: string = process.env.NEXT_PUBLIC_BASE_URI
-
+    console.log('baseURL', baseURL);
     const commonGET = async (url: string, params: URLSearchParams) => {
         const res = await fetch(`${baseURL + url}?` + new URLSearchParams(params).toString(), {
             method: 'GET',

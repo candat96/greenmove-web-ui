@@ -15,6 +15,7 @@ class Axios {
     const instance = axios.create({
       baseURL: process.env.NEXT_PUBLIC_BASE_URI,
     })
+    console.log('process.env.NEXT_PUBLIC_BASE_URI', process.env.NEXT_PUBLIC_BASE_URI);
 
     // Request interceptor to add token
     instance.interceptors.request.use(

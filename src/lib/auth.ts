@@ -92,11 +92,13 @@ export const authOptions: NextAuthOptions = {
       name: "credentials",
       credentials: {},
       async authorize(credentials) {
+        console.log('process.env.NEXT_PUBLIC_BASE_URI 11', process.env.NEXT_PUBLIC_BASE_URI);
         const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URI}/admin/auth/login`, {
           method: 'POST',
           body: JSON.stringify(credentials),
           headers: { "Content-Type": "application/json" }
         })
+        
         const user = await res.json();
         if (user?.data) {
           return user.data;

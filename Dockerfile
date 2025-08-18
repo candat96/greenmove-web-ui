@@ -5,7 +5,7 @@ WORKDIR /app
 # Sao chép package.json và yarn.lock vào container
 COPY package.json ./
 # Cài đặt các dependencies
-RUN yarn install --frozen-lockfile
+RUN yarn install
 # Sao chép tất cả các tệp của dự án vào container
 COPY . .
 # Build ứng dụng Next.js
