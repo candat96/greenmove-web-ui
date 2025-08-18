@@ -13,19 +13,21 @@ class Axios {
 
   constructor() {
     const instance = axios.create({
-      baseURL: 'http://40.66.49.72:4869/api',
+      baseURL: 'http://localhost:4869/api',
     })
 
     // Request interceptor to add token
     instance.interceptors.request.use(
       (config) => {
         const token = this.getToken() // Get token from storage or wherever it is saved
+        console.log('token', token);
         if (token) {
           config.headers.Authorization = `Bearer ${token}` // Add token to headers
         }
         config.headers['x-language'] = 'vi'
         return config
       },
+     
       (error: AxiosError) => {
         if (error.response?.status === 401) {
           this.handleUnauthorized()

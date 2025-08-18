@@ -1,0 +1,466 @@
+.wrap-competition-detail {
+  padding: 24px;
+  background: #f5f5f5;
+  min-height: 100vh;
+  font-size: 16px;
+
+  .loading-container,
+  .error-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    gap: 16px;
+
+    p {
+      color: #666;
+      font-size: 18px;
+      margin: 0;
+    }
+  }
+
+  .header {
+    margin-bottom: 24px;
+
+    .title-section {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+      h1 {
+        color: #234B8E;
+        margin: 0;
+        font-size: 32px;
+        font-weight: 600;
+        flex: 1;
+      }
+
+      :global(.ant-tag) {
+        font-weight: 500;
+        border-radius: 16px;
+      }
+    }
+
+    :global(.ant-breadcrumb) {
+      .ant-breadcrumb-link {
+        color: #666;
+        
+        &:hover {
+          color: #234B8E;
+        }
+      }
+    }
+  }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 24px;
+    margin-bottom: 24px;
+
+    @media (max-width: 1200px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .info-card {
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+    :global(.ant-card-head) {
+      background: #fafafa;
+      border-radius: 8px 8px 0 0;
+
+      .ant-card-head-title {
+        color: #234B8E;
+        font-weight: 600;
+      }
+    }
+
+    :global(.ant-descriptions) {
+      .ant-descriptions-item-label {
+        font-weight: 600;
+        color: #333;
+        background: #f8f9fa;
+      }
+
+      .ant-descriptions-item-content {
+        color: #666;
+      }
+    }
+  }
+
+  .companies-card {
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 16px;
+
+    :global(.ant-card-head) {
+      background: #fafafa;
+      border-radius: 8px 8px 0 0;
+
+      .ant-card-head-title {
+        color: #234B8E;
+        font-weight: 600;
+      }
+    }
+
+    .companies-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+  }
+
+  .banner-card {
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+    :global(.ant-card-head) {
+      background: #fafafa;
+      border-radius: 8px 8px 0 0;
+
+      .ant-card-head-title {
+        color: #234B8E;
+        font-weight: 600;
+      }
+    }
+  }
+
+  .stats-section {
+    margin-bottom: 24px;
+
+    :global(.ant-card) {
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      border: 1px solid #f0f0f0;
+
+      .ant-card-body {
+        padding: 20px;
+      }
+
+      .ant-statistic {
+        .ant-statistic-title {
+          color: #666;
+          font-weight: 500;
+          margin-bottom: 8px;
+        }
+
+        .ant-statistic-content {
+          color: #333;
+          font-weight: 600;
+        }
+      }
+    }
+  }
+
+  .my-rank-card {
+    margin-bottom: 24px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: 2px solid #b7eb8f;
+
+    :global(.ant-card-head) {
+      background: #f6ffed;
+      border-radius: 8px 8px 0 0;
+
+      .ant-card-head-title {
+        color: #389e0d;
+        font-weight: 600;
+      }
+    }
+
+    .my-rank-content {
+      div {
+        padding: 4px 0;
+        font-size: 14px;
+
+        strong {
+          color: #333;
+        }
+      }
+    }
+  }
+
+  .leaderboard-card {
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+    :global(.ant-card-head) {
+      background: #fafafa;
+      border-radius: 8px 8px 0 0;
+
+      .ant-card-head-title {
+        color: #234B8E;
+        font-weight: 600;
+      }
+    }
+
+    .leaderboard-table {
+      :global(.ant-table) {
+        border-radius: 8px;
+        overflow: hidden;
+
+        .ant-table-thead > tr > th {
+          background-color: #fafafa;
+          font-weight: 600;
+          color: #333;
+          border-bottom: 2px solid #e8e8e8;
+          text-align: center;
+        }
+
+        .ant-table-tbody > tr > td {
+          border-bottom: 1px solid #f0f0f0;
+          vertical-align: middle;
+        }
+
+        .ant-table-tbody > tr:hover > td {
+          background-color: #f8f9ff;
+        }
+
+        .ant-table-tbody > tr:last-child > td {
+          border-bottom: none;
+        }
+      }
+
+      // Special styling for top 3 ranks
+      :global(.first-place) {
+        background: linear-gradient(90deg, #fff7e6 0%, #ffffff 100%);
+        
+        td {
+          font-weight: 600;
+          border-left: 4px solid #FFD700;
+        }
+      }
+
+      :global(.second-place) {
+        background: linear-gradient(90deg, #f6f6f6 0%, #ffffff 100%);
+        
+        td {
+          font-weight: 500;
+          border-left: 4px solid #C0C0C0;
+        }
+      }
+
+      :global(.third-place) {
+        background: linear-gradient(90deg, #fff2e8 0%, #ffffff 100%);
+        
+        td {
+          font-weight: 500;
+          border-left: 4px solid #CD7F32;
+        }
+      }
+    }
+
+    :global(.ant-pagination) {
+      .ant-pagination-item {
+        border-radius: 6px;
+
+        &.ant-pagination-item-active {
+          background: #234B8E;
+          border-color: #234B8E;
+
+          a {
+            color: #fff;
+          }
+        }
+      }
+
+      .ant-pagination-prev,
+      .ant-pagination-next,
+      .ant-pagination-jump-prev,
+      .ant-pagination-jump-next {
+        border-radius: 6px;
+      }
+
+      .ant-pagination-options {
+        .ant-select {
+          .ant-select-selector {
+            border-radius: 6px;
+
+            &:hover {
+              border-color: #234B8E;
+            }
+          }
+
+          &.ant-select-focused .ant-select-selector {
+            border-color: #234B8E;
+            box-shadow: 0 0 0 2px rgba(35, 75, 142, 0.2);
+          }
+        }
+      }
+
+      .ant-pagination-total-text {
+        color: #666;
+        font-weight: 500;
+      }
+    }
+  }
+
+  // Responsive design
+  @media (max-width: 1200px) {
+    padding: 16px;
+
+    .header {
+      .title-section {
+        flex-direction: column;
+        gap: 16px;
+        align-items: stretch;
+
+        h1 {
+          text-align: center;
+          font-size: 28px;
+        }
+      }
+    }
+
+    .stats-section {
+      :global(.ant-space) {
+        width: 100%;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+    }
+
+    .my-rank-content {
+      :global(.ant-space) {
+        width: 100%;
+        flex-wrap: wrap;
+        justify-content: space-between;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: 12px;
+
+    .header {
+      .title-section {
+        padding: 16px;
+
+        h1 {
+          font-size: 24px;
+        }
+      }
+    }
+
+    .info-card,
+    .leaderboard-card {
+      :global(.ant-card-body) {
+        padding: 16px;
+      }
+
+      :global(.ant-descriptions) {
+        .ant-descriptions-item {
+          padding-bottom: 12px;
+          font-size: 15px;
+        }
+      }
+    }
+
+    .stats-section {
+      :global(.ant-card) {
+        .ant-card-body {
+          padding: 16px;
+        }
+      }
+    }
+
+    .leaderboard-table {
+      :global(.ant-table) {
+        font-size: 15px;
+
+        .ant-table-thead > tr > th,
+        .ant-table-tbody > tr > td {
+          padding: 8px 4px;
+        }
+      }
+    }
+
+    .my-rank-content {
+      div {
+        font-size: 15px;
+      }
+
+      :global(.ant-space) {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    padding: 8px;
+
+    .header {
+      .title-section {
+        padding: 12px;
+
+        h1 {
+          font-size: 22px;
+        }
+      }
+    }
+
+    .leaderboard-table {
+      :global(.ant-table) {
+        .ant-table-thead > tr > th,
+        .ant-table-tbody > tr > td {
+          padding: 6px 2px;
+          font-size: 14px;
+        }
+      }
+    }
+  }
+}
+
+// Custom scrollbar for table
+.wrap-competition-detail {
+  .leaderboard-table {
+    :global(.ant-table-body) {
+      &::-webkit-scrollbar {
+        height: 8px;
+        width: 8px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 4px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: #c1c1c1;
+        border-radius: 4px;
+
+        &:hover {
+          background: #a8a8a8;
+        }
+      }
+    }
+  }
+}
+
+// Loading animation
+.loading-container {
+  padding: 24px;
+  background: #f5f5f5;
+  min-height: 100vh;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  :global(.ant-spin) {
+    .ant-spin-dot {
+      i {
+        background-color: #234B8E;
+      }
+    }
+  }
+}

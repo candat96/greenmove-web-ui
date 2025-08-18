@@ -1,0 +1,315 @@
+.wrap-competitions {
+  padding: 24px;
+  background: #f5f5f5;
+  min-height: 100vh;
+  
+  .wrap-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: #fff;
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
+    
+    // box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    .wrap-header-actions {
+      gap: 10px
+    }
+    h2 {
+      color: #234B8E;
+      margin: 0;
+      font-size: 24px;
+      font-weight: 600;
+    }
+    
+    button {
+      height: 35px;
+      font-weight: 500;
+      border-radius: 6px;
+      margin-left: 10px;
+    }
+  }
+  
+  .wrap-body {
+    background: #fff;
+    // border-radius: 8px;
+    padding: 24px;
+    padding-top: 0px;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    //box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    
+    :global(.ant-tabs) {
+      .ant-tabs-nav {
+        margin-bottom: 24px;
+        
+        .ant-tabs-tab {
+          font-weight: 500;
+          color: #666;
+          
+          &.ant-tabs-tab-active {
+            color: #234B8E;
+            font-weight: 600;
+          }
+        }
+        
+        .ant-tabs-ink-bar {
+          background: #234B8E;
+        }
+      }
+      
+      .ant-tabs-content-holder {
+        .ant-tabs-content {
+          .ant-tabs-tabpane {
+            padding: 0;
+          }
+        }
+      }
+    }
+    
+    .table {
+      border-radius: 8px;
+      overflow: hidden;
+      
+      :global(.ant-table) {
+        border: 1px solid #f0f0f0;
+        
+        .ant-table-thead > tr > th {
+          background-color: #fafafa;
+          font-weight: 600;
+          color: #333;
+          border-bottom: 2px solid #e8e8e8;
+          padding: 16px;
+        }
+        
+        .ant-table-tbody > tr > td {
+          padding: 16px;
+          border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .ant-table-tbody > tr:hover > td {
+          background-color: #f8f9ff;
+        }
+        
+        .ant-table-tbody > tr:last-child > td {
+          border-bottom: none;
+        }
+      }
+      
+      :global(.ant-tag) {
+        border-radius: 16px;
+        padding: 4px 12px;
+        font-weight: 500;
+        border: none;
+      }
+      
+      :global(.ant-btn) {
+        border-radius: 6px;
+        font-weight: 500;
+        
+        &.ant-btn-sm {
+          height: 32px;
+          padding: 4px 12px;
+          font-size: 13px;
+        }
+        
+        &.ant-btn-primary {
+          background: #234B8E;
+          border-color: #234B8E;
+          
+          &:hover {
+            background: #1a3a6b;
+            border-color: #1a3a6b;
+          }
+        }
+        
+        &.ant-btn-dangerous {
+          &:hover {
+            background: #ff7875;
+            border-color: #ff7875;
+          }
+        }
+      }
+    }
+    
+    :global(.ant-pagination) {
+      .ant-pagination-item {
+        border-radius: 6px;
+        
+        &.ant-pagination-item-active {
+          background: #234B8E;
+          border-color: #234B8E;
+          
+          a {
+            color: #fff;
+          }
+        }
+      }
+      
+      .ant-pagination-prev,
+      .ant-pagination-next {
+        border-radius: 6px;
+      }
+    }
+  }
+  
+  // Styles cho filter section
+  :global(.ant-select) {
+    .ant-select-selector {
+      border-radius: 6px;
+      border: 1px solid #d9d9d9;
+      
+      &:hover {
+        border-color: #234B8E;
+      }
+    }
+    
+    &.ant-select-focused .ant-select-selector {
+      border-color: #234B8E;
+      box-shadow: 0 0 0 2px rgba(35, 75, 142, 0.2);
+    }
+  }
+  
+  // Styles cho stat cards
+  :global(.ant-card) {
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #f0f0f0;
+    
+    .ant-card-body {
+      padding: 16px 20px;
+    }
+    
+    .ant-statistic {
+      .ant-statistic-title {
+        color: #666;
+        font-weight: 500;
+        margin-bottom: 8px;
+      }
+      
+      .ant-statistic-content {
+        color: #333;
+        font-weight: 600;
+      }
+    }
+  }
+  
+  // Styles cho modals
+  :global(.ant-modal) {
+    .ant-modal-header {
+      border-radius: 8px 8px 0 0;
+      padding: 20px 24px;
+      
+      .ant-modal-title {
+        color: #234B8E;
+        font-weight: 600;
+        font-size: 18px;
+      }
+    }
+    
+    .ant-modal-body {
+      padding: 24px;
+    }
+    
+    .ant-modal-footer {
+      padding: 16px 24px;
+      border-radius: 0 0 8px 8px;
+      
+      .ant-btn {
+        border-radius: 6px;
+        font-weight: 500;
+        height: 36px;
+        padding: 0 20px;
+      }
+    }
+  }
+  
+  // Styles cho forms
+  :global(.ant-form) {
+    .ant-form-item-label > label {
+      color: #333;
+      font-weight: 500;
+    }
+    
+    .ant-input,
+    .ant-input-number,
+    .ant-picker {
+      border-radius: 6px;
+      border: 1px solid #d9d9d9;
+      
+      &:hover {
+        border-color: #234B8E;
+      }
+      
+      &:focus {
+        border-color: #234B8E;
+        box-shadow: 0 0 0 2px rgba(35, 75, 142, 0.2);
+      }
+    }
+    
+    .ant-input:focus,
+    .ant-input-focused {
+      border-color: #234B8E;
+      box-shadow: 0 0 0 2px rgba(35, 75, 142, 0.2);
+    }
+    
+    .ant-picker:focus,
+    .ant-picker-focused {
+      border-color: #234B8E;
+      box-shadow: 0 0 0 2px rgba(35, 75, 142, 0.2);
+    }
+  }
+  
+  // Responsive design
+  @media (max-width: 1200px) {
+    padding: 16px;
+    
+    .wrap-header {
+      flex-direction: column;
+      gap: 16px;
+      align-items: stretch;
+      
+      h2 {
+        text-align: center;
+      }
+    }
+    
+    .table {
+      :global(.ant-table) {
+        font-size: 13px;
+        
+        .ant-table-thead > tr > th,
+        .ant-table-tbody > tr > td {
+          padding: 12px 8px;
+        }
+      }
+    }
+  }
+  
+  @media (max-width: 768px) {
+    padding: 12px;
+    
+    .wrap-header {
+      padding: 16px;
+      
+      h2 {
+        font-size: 20px;
+      }
+    }
+    
+    .wrap-body {
+      padding: 16px;
+      
+      .table {
+        :global(.ant-table) {
+          .ant-table-thead > tr > th,
+          .ant-table-tbody > tr > td {
+            padding: 8px 4px;
+            font-size: 12px;
+          }
+        }
+      }
+    }
+  }
+} 
