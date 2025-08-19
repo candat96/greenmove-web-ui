@@ -10,18 +10,22 @@ import { LoadingScreen } from "@/components";
 import { navigateMenu } from "@/lib/data";
 import Link from "next/link";
 import { PoweroffOutlined } from "@ant-design/icons";
+import { useEffect } from "react";
 
 const HomeLayout: React.FC = ({ children }: React.PropsWithChildren) => {
-
     const { data: session, status } = useSession();
-
     const router = useRouter()
     const pathname = usePathname()
 
-    // Auto signOut when maxAge below 0
-    // useEffect(() => {
-    //     session && session?.maxAge <= 0 && signOut()
-    // }, [update])
+    useEffect(() => {
+        if (session) {
+            const { accessToken, refreshToken } = session.user;
+
+            localStorage.setItem("accessToken", accessToken);
+            localStorage.setItem("refreshToken", refreshToken);
+        }
+    }, [session])
+    
 
     if (status == "loading") {
         return <LoadingScreen />
@@ -54,7 +58,7 @@ const HomeLayout: React.FC = ({ children }: React.PropsWithChildren) => {
                                 icon={<PoweroffOutlined style={{ fontSize: 20 }} />}
                                 type="link"
                                 className={styles.logoutBtn}
-                                onClick={() => signOut()}
+                                onClick={handleLogout}
                             />
                         )}
                         placement="left"
@@ -63,7 +67,7 @@ const HomeLayout: React.FC = ({ children }: React.PropsWithChildren) => {
                             style={{ backgroundColor: '#234B8E' }}
                             size={38}
                         >
-                            {(session.user?.name || session.user?.email)?.split(" ").pop()[0]}
+                            {session.user?.email?.split(" ").pop()[0]}
                         </Avatar>
                     </Popover>
                 </header>
@@ -72,6 +76,12 @@ const HomeLayout: React.FC = ({ children }: React.PropsWithChildren) => {
         )
     } else {
         router.push('/login');
+    }
+
+    function handleLogout() {
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
+        void signOut();
     }
 }
 

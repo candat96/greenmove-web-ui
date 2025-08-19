@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import styles from "./styles.module.scss";
 import { DatePicker } from "antd";
 import locale from "antd/es/date-picker/locale/en_US";
@@ -18,7 +18,7 @@ type DataChartCo2 = {
 
 const colors = ["#3B82F6", "#10B981", "#7EF6DE", "#C4B5FD", "#F87171", "#FBBF24", "#60A5FA", "#9CA3AF", "#EC4899", "#8B5CF6", "#6B7280"];
 
-export const Chart = () => {
+export const Chart = memo(() => {
   const [dataChart2, setDataChart2] = useState<ItemProps[]>([]);
   const [dataChartCo2, setDataChartCo2] = useState<DataChartCo2[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -155,4 +155,6 @@ export const Chart = () => {
       </div>
     </div>
   );
-};
+});
+
+Chart.displayName = "Chart";

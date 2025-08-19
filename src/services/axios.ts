@@ -82,6 +82,7 @@ class Axios {
     // cookies().set('accessToken', '', { expires: new Date(0) })
     if(window) {
       window.localStorage.removeItem('accessToken')
+      window.localStorage.removeItem('refreshToken')
       window.document.cookie = "";
     }
   }
