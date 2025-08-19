@@ -148,6 +148,18 @@ export interface JoinCompetitionResponse {
   message: string;
 }
 
+// Update competition status interface
+export interface UpdateCompetitionStatusPayload {
+  status: CompetitionStatus;
+  reason: string;
+}
+
+export interface UpdateCompetitionStatusResponse {
+  success: boolean;
+  message: string;
+  data?: Competition;
+}
+
 // API functions
 export const getCompetitions = async (filters?: CompetitionFilters) => {
   return await axiosInstance.get<CompetitionFilters, APIResponse<Competition[]>>(
@@ -223,5 +235,12 @@ export const deleteCompetition = async (competitionId: string) => {
 export const getCompetitionById = async (competitionId: string) => {
   return await axiosInstance.get<void, APIResponse<Competition>>(
     `/competition/${competitionId}`
+  )
+}
+
+export const updateCompetitionStatus = async (competitionId: string, payload: UpdateCompetitionStatusPayload) => {
+  return await axiosInstance.patch<UpdateCompetitionStatusPayload, UpdateCompetitionStatusResponse>(
+    `/competition/${competitionId}/status`,
+    payload
   )
 }

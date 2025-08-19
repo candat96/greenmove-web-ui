@@ -24,7 +24,8 @@ import {
   EditOutlined,
   DeleteOutlined,
   TrophyOutlined,
-  FilterOutlined
+  FilterOutlined,
+  CheckCircleOutlined
 } from "@ant-design/icons";
 import type { AlignType } from 'rc-table/lib/interface';
 import { useCompetitions } from "./useCompetitions";
@@ -34,7 +35,8 @@ import {
   CompetitionStatus, 
   CompetitionScope,
   CompetitionObjective,
-  CreateCompetitionPayload
+  CreateCompetitionPayload,
+  UpdateCompetitionStatusPayload
 } from "@/services/competition";
 import { getCompanies, Company } from "@/services/company";
 import { useRouter } from "next/navigation";
@@ -68,9 +70,11 @@ const CompetitionsContent = () => {
   const [editForm] = Form.useForm();
   const [createModalVisible, setCreateModalVisible] = useState(false);
   const [editModalVisible, setEditModalVisible] = useState(false);
+  const [statusModalVisible, setStatusModalVisible] = useState(false);
   const [currentCompetition, setCurrentCompetition] = useState<Competition | null>(null);
   const [createLoading, setCreateLoading] = useState(false);
   const [editLoading, setEditLoading] = useState(false);
+  const [statusForm] = Form.useForm();
   
   // State pour les entreprises
   const [companies, setCompanies] = useState<Company[]>([]);
@@ -86,12 +90,14 @@ const CompetitionsContent = () => {
     loading,
     editLoading: hookEditLoading,
     deleteLoading,
+    statusUpdateLoading,
     pagination,
     filters,
     updateFilters,
     handleCreateCompetition,
     handleUpdateCompetition,
     handleDeleteCompetition,
+    handleUpdateCompetitionStatus,
     onChangePagination,
   } = useCompetitions();
 
@@ -168,7 +174,7 @@ const CompetitionsContent = () => {
       title: 'Actions',
       key: 'action',
       align: 'center' as AlignType,
-      width: 200,
+      width: 280,
       render: (_: any, record: Competition) => (
         <Space>
           <Button 
@@ -179,6 +185,15 @@ const CompetitionsContent = () => {
             style={{ backgroundColor: '#234B8E', borderColor: '#234B8E', color: '#fff'}}
           >
             Voir détails
+          </Button>
+          <Button 
+            size="middle"
+            type="default" 
+            icon={<CheckCircleOutlined />}
+            onClick={() => handleStatusUpdateClick(record)}
+            loading={statusUpdateLoading === record.id}
+          >
+            Statut
           </Button>
           <Button 
             size="middle"
@@ -234,7 +249,7 @@ const CompetitionsContent = () => {
       banner: competition.banner,
     });
     setEditModalVisible(true);
-    // Load companies khi mở modal
+    // Charger les entreprises à l'ouverture du modal
     fetchCompanies();
   };
 
@@ -242,11 +257,40 @@ const CompetitionsContent = () => {
     await handleDeleteCompetition(competitionId);
   };
 
+  const handleStatusUpdateClick = (competition: Competition) => {
+    setCurrentCompetition(competition);
+    statusForm.setFieldsValue({
+      status: competition.status,
+      reason: ''
+    });
+    setStatusModalVisible(true);
+  };
+
+  const handleStatusUpdateOk = async () => {
+    if (!currentCompetition) return;
+    
+    try {
+      const values = await statusForm.validateFields();
+      
+      const payload: UpdateCompetitionStatusPayload = {
+        status: values.status,
+        reason: values.reason
+      };
+
+      await handleUpdateCompetitionStatus(currentCompetition.id, payload);
+      setStatusModalVisible(false);
+      statusForm.resetFields();
+      setCurrentCompetition(null);
+    } catch (error) {
+      console.error("Erreur lors de la mise à jour du statut:", error);
+    }
+  };
+
   const showCreateModal = () => {
     form.resetFields();
     setCreateModalVisible(true);
     setCreateScope(undefined); // Reset scope state
-    // Load companies khi mở modal
+    // Charger les entreprises à l'ouverture du modal
     fetchCompanies();
   };
 
@@ -398,7 +442,7 @@ const CompetitionsContent = () => {
           onSearch={handleCompanySearch}
           filterOption={false}
           loading={companiesLoading}
-          notFoundContent={companiesLoading ? "Đang tải..." : "Không tìm thấy công ty"}
+          notFoundContent={companiesLoading ? "Chargement..." : "Aucune entreprise trouvée"}
         >
           {companies.map((company) => (
             <Option key={company.id} value={company.id}>
@@ -484,7 +528,7 @@ const CompetitionsContent = () => {
         )}
       </div>
 
-      {/* Modal tạo cuộc thi */}
+      {/* Modal créer concours */}
       <Modal
         title="Créer nouveau concours"
         open={createModalVisible}
@@ -581,17 +625,17 @@ const CompetitionsContent = () => {
             rules={[{ required: true, message: "Veuillez choisir la portée" }]}
           >
             <Select 
-              placeholder="Chọn phạm vi cuộc thi"
+              placeholder="Sélectionner la portée du concours"
               onChange={(value: CompetitionScope) => {
                 setCreateScope(value);
-                // Reset companyIds khi thay đổi scope
+                // Réinitialiser companyIds lors du changement de portée
                 if (value !== 'COMPANY') {
                   form.setFieldValue('companyIds', undefined);
                 }
               }}
             >
-              <Option value="GLOBAL">Toàn cầu</Option>
-              <Option value="COMPANY">Công ty</Option>
+              <Option value="GLOBAL">Global</Option>
+              <Option value="COMPANY">Entreprise</Option>
             </Select>
           </Form.Item>
 
@@ -738,17 +782,17 @@ const CompetitionsContent = () => {
             rules={[{ required: true, message: "Veuillez choisir la portée" }]}
           >
             <Select 
-              placeholder="Chọn phạm vi cuộc thi"
+              placeholder="Sélectionner la portée du concours"
               onChange={(value: CompetitionScope) => {
                 setEditScope(value);
-                // Reset companyIds khi thay đổi scope
+                // Réinitialiser companyIds lors du changement de portée
                 if (value !== 'COMPANY') {
                   editForm.setFieldValue('companyIds', undefined);
                 }
               }}
             >
-              <Option value="GLOBAL">Toàn cầu</Option>
-              <Option value="COMPANY">Công ty</Option>
+              <Option value="GLOBAL">Global</Option>
+              <Option value="COMPANY">Entreprise</Option>
             </Select>
           </Form.Item>
 
@@ -797,6 +841,70 @@ const CompetitionsContent = () => {
         </Form>
       </Modal>
 
+      {/* Modal cập nhật trạng thái */}
+      <Modal
+        title="Mettre à jour le statut de la compétition"
+        open={statusModalVisible}
+        onOk={handleStatusUpdateOk}
+        onCancel={() => {
+          setStatusModalVisible(false);
+          setCurrentCompetition(null);
+          statusForm.resetFields();
+        }}
+        confirmLoading={statusUpdateLoading === currentCompetition?.id}
+        okText="Mettre à jour le statut"
+        cancelText="Annuler"
+        width={500}
+        okButtonProps={{ style: { backgroundColor: '#234B8E', borderColor: '#234B8E' } }}
+      >
+        <Form
+          form={statusForm}
+          layout="vertical"
+        >
+          <Form.Item
+            name="status"
+            label="Nouveau statut"
+            rules={[{ required: true, message: "Veuillez sélectionner un statut" }]}
+          >
+            <Select placeholder="Sélectionner le nouveau statut">
+              <Option value="DRAFT">Brouillon</Option>
+              <Option value="ACTIVE">En cours</Option>
+              <Option value="ENDED">Terminé</Option>
+              <Option value="CANCELLED">Annulé</Option>
+            </Select>
+          </Form.Item>
+
+          <Form.Item
+            name="reason"
+            label="Raison du changement"
+            rules={[{ required: true, message: "Veuillez saisir la raison du changement" }]}
+          >
+            <Input.TextArea 
+              rows={3} 
+              placeholder="Exemple: La compétition est prête à commencer"
+            />
+          </Form.Item>
+
+          {currentCompetition && (
+            <div style={{ 
+              padding: '12px 16px', 
+              backgroundColor: '#f8f9fa', 
+              borderRadius: '6px', 
+              marginBottom: '16px' 
+            }}>
+              <p style={{ margin: 0, color: '#666', fontSize: '16px' }}>
+                <strong>Compétition:</strong> {currentCompetition.name}
+              </p>
+              <p style={{ margin: 0, color: '#666', fontSize: '16px' }}>
+                <strong>Statut actuel:</strong> 
+                <Tag color={statusLabels[currentCompetition.status].color} style={{ marginLeft: '8px' }}>
+                  {statusLabels[currentCompetition.status].label}
+                </Tag>
+              </p>
+            </div>
+          )}
+        </Form>
+      </Modal>
 
     </div>
   );

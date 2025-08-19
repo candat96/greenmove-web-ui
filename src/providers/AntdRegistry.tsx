@@ -2,13 +2,13 @@ import React from 'react';
 import { AntdRegistry } from '@ant-design/nextjs-registry';
 import { ConfigProvider } from 'antd';
 import theme from './AntdConfig';
-import viVN from 'antd/locale/vi_VN';
+import frFR from 'antd/locale/fr_FR';
 
 const AntdProvider = ({ children }: React.PropsWithChildren) => {
 
   return (
     <AntdRegistry>
-      <ConfigProvider theme={theme} locale={viVN}>
+      <ConfigProvider theme={theme} locale={frFR}>
         {children}
       </ConfigProvider>
     </AntdRegistry>

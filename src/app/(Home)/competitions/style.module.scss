@@ -124,6 +124,14 @@
           }
         }
         
+        &.ant-btn-default {
+          &:hover {
+            background: #f0f8ff;
+            border-color: #234B8E;
+            color: #234B8E;
+          }
+        }
+        
         &.ant-btn-dangerous {
           &:hover {
             background: #ff7875;
@@ -159,6 +167,18 @@
     .ant-select-selector {
       border-radius: 6px;
       border: 1px solid #d9d9d9;
+      height: 42px;
+      font-size: 16px;
+      
+      .ant-select-selection-item {
+        font-size: 16px;
+        line-height: 40px;
+      }
+      
+      .ant-select-selection-placeholder {
+        font-size: 16px;
+        line-height: 40px;
+      }
       
       &:hover {
         border-color: #234B8E;
@@ -168,6 +188,13 @@
     &.ant-select-focused .ant-select-selector {
       border-color: #234B8E;
       box-shadow: 0 0 0 2px rgba(35, 75, 142, 0.2);
+    }
+    
+    .ant-select-dropdown {
+      .ant-select-item {
+        font-size: 16px;
+        padding: 8px 12px;
+      }
     }
   }
   
@@ -204,12 +231,32 @@
       .ant-modal-title {
         color: #234B8E;
         font-weight: 600;
-        font-size: 18px;
+        font-size: 20px;
       }
     }
     
     .ant-modal-body {
       padding: 24px;
+      
+      // Styles cho status info box
+      .status-info-box {
+        padding: 12px 16px;
+        background-color: #f8f9fa;
+        border-radius: 6px;
+        margin-bottom: 16px;
+        border-left: 4px solid #234B8E;
+        
+        p {
+          margin: 4px 0;
+          color: #666;
+          font-size: 16px;
+          
+          strong {
+            color: #333;
+            font-size: 16px;
+          }
+        }
+      }
     }
     
     .ant-modal-footer {
@@ -219,8 +266,9 @@
       .ant-btn {
         border-radius: 6px;
         font-weight: 500;
-        height: 36px;
-        padding: 0 20px;
+        height: 40px;
+        padding: 0 24px;
+        font-size: 16px;
       }
     }
   }
@@ -230,6 +278,7 @@
     .ant-form-item-label > label {
       color: #333;
       font-weight: 500;
+      font-size: 16px;
     }
     
     .ant-input,
@@ -237,6 +286,8 @@
     .ant-picker {
       border-radius: 6px;
       border: 1px solid #d9d9d9;
+      font-size: 16px;
+      height: 42px;
       
       &:hover {
         border-color: #234B8E;
@@ -246,6 +297,10 @@
         border-color: #234B8E;
         box-shadow: 0 0 0 2px rgba(35, 75, 142, 0.2);
       }
+    }
+    
+    .ant-input::placeholder {
+      font-size: 16px;
     }
     
     .ant-input:focus,
@@ -258,6 +313,15 @@
     .ant-picker-focused {
       border-color: #234B8E;
       box-shadow: 0 0 0 2px rgba(35, 75, 142, 0.2);
+    }
+    
+    textarea.ant-input {
+      font-size: 16px;
+      min-height: 80px;
+      
+      &::placeholder {
+        font-size: 16px;
+      }
     }
   }
   
