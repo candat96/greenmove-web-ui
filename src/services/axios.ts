@@ -13,7 +13,7 @@ class Axios {
 
   constructor() {
     const instance = axios.create({
-      baseURL: process.env.NEXT_PUBLIC_BASE_URI,
+      baseURL: 'http://40.66.49.72:4869/api',
     })
     console.log('process.env.NEXT_PUBLIC_BASE_URI', process.env.NEXT_PUBLIC_BASE_URI);
 
