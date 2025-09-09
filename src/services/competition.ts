@@ -18,6 +18,8 @@ export interface Competition {
   rewards?: string;
   companies: CompetitionCompany[];
   config?: CompetitionConfig;
+  baselinePeriodDays?: number;
+  baselineStartDate?: string;
 }
 
 export interface CompetitionCompany {
@@ -29,13 +31,14 @@ export type CompetitionCategory =
   | 'CO2' 
   | 'BICYCLE' 
   | 'WALKING' 
-  | 'DISTANCE' 
-  | 'TRIPS' 
-  | 'POINTS' 
+  | 'CAR' 
   | 'CAR_POOL' 
-  | 'PUBLIC_TRANSPORT';
+  | 'TRAIN' 
+  | 'AIRPLANE' 
+  | 'PUBLIC_TRANSPORT'
+  | 'POINTS';
 
-export type CompetitionObjective = 'HIGHEST' | 'LOWEST';
+export type CompetitionObjective = 'HIGHEST' | 'LOWEST' | 'INCREASE_FROM_BASELINE' | 'DECREASE_FROM_BASELINE';
 
 export type CompetitionStatus = 'DRAFT' | 'ACTIVE' | 'ENDED' | 'CANCELLED';
 
@@ -81,21 +84,7 @@ export interface CompetitionConfig {
 }
 
 export interface LeaderboardResponse {
-  competition: {
-    id: string;
-    name: string;
-    description: string;
-    startTime: string;
-    endTime: string;
-    category: CompetitionCategory;
-    objective: CompetitionObjective;
-    status: CompetitionStatus;
-    scope: CompetitionScope;
-    config: CompetitionConfig;
-    banner?: string;
-    rewards?: string;
-    companies: CompetitionCompany[];
-  };
+  competition: Competition;
   leaderboard: LeaderboardEntry[];
   pagination: {
     page: number;
@@ -136,6 +125,8 @@ export interface CreateCompetitionPayload {
   companyIds?: string[];
   rewards?: string;
   banner?: string;
+  baselinePeriodDays?: number;
+  baselineStartDate?: string;
 }
 
 // Join competition interface

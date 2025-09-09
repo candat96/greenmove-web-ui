@@ -40,6 +40,7 @@ import {
 } from "@/services/competition";
 import { getCompanies, Company } from "@/services/company";
 import { useRouter } from "next/navigation";
+import { InputNumber } from "antd/lib";
 
 const { Option } = Select;
 
@@ -48,11 +49,12 @@ const categoryLabels: Record<CompetitionCategory, string> = {
   'CO2': 'Émissions CO2',
   'BICYCLE': 'Vélo',
   'WALKING': 'Marche',
-  'DISTANCE': 'Distance',
-  'TRIPS': 'Nombre de trajets',
-  'POINTS': 'Points',
+  'CAR': 'Voiture',
   'CAR_POOL': 'Covoiturage',
-  'PUBLIC_TRANSPORT': 'Transport public'
+  'TRAIN': 'Train',
+  'AIRPLANE': 'Avion',
+  'PUBLIC_TRANSPORT': 'Transport public',
+  'POINTS': 'Points'
 };
 
 // Status mapping pour l'affichage
@@ -84,6 +86,10 @@ const CompetitionsContent = () => {
   // Surveillance des changements de portée pour les mises à jour UI en temps réel
   const [createScope, setCreateScope] = useState<CompetitionScope | undefined>();
   const [editScope, setEditScope] = useState<CompetitionScope | undefined>();
+  
+  // Surveillance des changements d'objectif pour afficher les champs baseline
+  const [createObjective, setCreateObjective] = useState<CompetitionObjective | undefined>();
+  const [editObjective, setEditObjective] = useState<CompetitionObjective | undefined>();
   const {
     competitions,
     stats,
@@ -236,6 +242,7 @@ const CompetitionsContent = () => {
   const handleEditClick = (competition: Competition) => {
     setCurrentCompetition(competition);
     setEditScope(competition.scope); // Set initial scope state
+    setEditObjective(competition.objective); // Set initial objective state
     editForm.setFieldsValue({
       name: competition.name,
       description: competition.description,
@@ -247,6 +254,8 @@ const CompetitionsContent = () => {
       companyIds: competition.companies?.map(c => c.id),
       rewards: competition.rewards,
       banner: competition.banner,
+      baselinePeriodDays: competition.baselinePeriodDays,
+      baselineStartDate: competition.baselineStartDate ? dayjs(competition.baselineStartDate) : undefined,
     });
     setEditModalVisible(true);
     // Charger les entreprises à l'ouverture du modal
@@ -290,6 +299,7 @@ const CompetitionsContent = () => {
     form.resetFields();
     setCreateModalVisible(true);
     setCreateScope(undefined); // Reset scope state
+    setCreateObjective(undefined); // Reset objective state
     // Charger les entreprises à l'ouverture du modal
     fetchCompanies();
   };
@@ -310,10 +320,14 @@ const CompetitionsContent = () => {
         companyIds: values.companyIds,
         rewards: values.rewards,
         banner: values.banner,
+        baselinePeriodDays: values.baselinePeriodDays,
+        baselineStartDate: values.baselineStartDate ? dayjs(values.baselineStartDate).toISOString() : undefined,
       };
 
       await handleCreateCompetition(payload);
       setCreateModalVisible(false);
+      setCreateScope(undefined);
+      setCreateObjective(undefined);
       form.resetFields();
     } catch (error) {
       console.error("Erreur lors de la création du concours:", error);
@@ -340,10 +354,14 @@ const CompetitionsContent = () => {
         companyIds: values.companyIds,
         rewards: values.rewards,
         banner: values.banner,
+        baselinePeriodDays: values.baselinePeriodDays,
+        baselineStartDate: values.baselineStartDate ? dayjs(values.baselineStartDate).toISOString() : undefined,
       };
 
       await handleUpdateCompetition(currentCompetition.id, payload);
       setEditModalVisible(false);
+      setEditScope(undefined);
+      setEditObjective(undefined);
       editForm.resetFields();
       setCurrentCompetition(null);
     } catch (error) {
@@ -536,12 +554,14 @@ const CompetitionsContent = () => {
         onCancel={() => {
           setCreateModalVisible(false);
           setCreateScope(undefined);
+          setCreateObjective(undefined);
           form.resetFields();
         }}
         confirmLoading={createLoading}
         okText="Créer concours"
         cancelText="Annuler"
-        width={'80%'}
+        width={'85%'}
+        centered
         okButtonProps={{ style: { backgroundColor: '#234B8E', borderColor: '#234B8E' } }}
       >
         <Form
@@ -565,6 +585,42 @@ const CompetitionsContent = () => {
           </Form.Item>
 
           <Space style={{ width: '100%' }} size="large">
+          <Form.Item
+              name="category"
+              label="Type de concours"
+              rules={[{ required: true, message: "Veuillez choisir le type de concours" }]}
+              style={{ flex: 1 }}
+            >
+              <Select placeholder="Choisir type de concours" style={{ minWidth: 200}}>
+                {Object.entries(categoryLabels).map(([key, value]) => (
+                  <Option key={key} value={key}>{value}</Option>
+                ))}
+              </Select>
+            </Form.Item>
+            <Form.Item
+              name="objective"
+              label="Objectif"
+              rules={[{ required: true, message: "Veuillez choisir l'objectif" }]}
+              style={{ flex: 1 }}
+            >
+              <Select 
+                placeholder="Choisir objectif" 
+                style={{ minWidth: 400}}
+                onChange={(value: CompetitionObjective) => {
+                  setCreateObjective(value);
+                  // Réinitialiser les champs baseline si on change d'objectif
+                  if (value !== 'INCREASE_FROM_BASELINE' && value !== 'DECREASE_FROM_BASELINE') {
+                    form.setFieldValue('baselinePeriodDays', undefined);
+                    form.setFieldValue('baselineStartDate', undefined);
+                  }
+                }}
+              >
+                <Option value="HIGHEST">Le plus élevé</Option>
+                <Option value="LOWEST">Le plus bas</Option>
+                <Option value="INCREASE_FROM_BASELINE">Augmentation par rapport à la période de référence</Option>
+                <Option value="DECREASE_FROM_BASELINE">Diminution par rapport à la période de référence</Option>
+              </Select>
+            </Form.Item>
             <Form.Item
               name="startTime"
               label="Heure de début"
@@ -590,33 +646,7 @@ const CompetitionsContent = () => {
                 format="DD/MM/YYYY HH:mm"
               />
             </Form.Item>
-          </Space>
-
-          <Space style={{ width: '100%' }} size="large">
-            <Form.Item
-              name="category"
-              label="Type de concours"
-              rules={[{ required: true, message: "Veuillez choisir le type de concours" }]}
-              style={{ flex: 1 }}
-            >
-              <Select placeholder="Choisir type de concours" style={{ minWidth: 200}}>
-                {Object.entries(categoryLabels).map(([key, value]) => (
-                  <Option key={key} value={key}>{value}</Option>
-                ))}
-              </Select>
-            </Form.Item>
-
-            <Form.Item
-              name="objective"
-              label="Objectif"
-              rules={[{ required: true, message: "Veuillez choisir l'objectif" }]}
-              style={{ flex: 1 }}
-            >
-              <Select placeholder="Choisir objectif" style={{ minWidth: 200}}>
-                <Option value="HIGHEST">Le plus élevé</Option>
-                <Option value="LOWEST">Le plus bas</Option>
-              </Select>
-            </Form.Item>
+            
           </Space>
 
           <Form.Item
@@ -668,6 +698,36 @@ const CompetitionsContent = () => {
             </Form.Item>
           )}
 
+          {/* Afficher seulement pour les objectifs baseline */}
+          {(createObjective === 'INCREASE_FROM_BASELINE' || createObjective === 'DECREASE_FROM_BASELINE') && (
+            <Space style={{ width: '100%' }} size="large">
+              <Form.Item
+                name="baselinePeriodDays"
+                label="Période de référence (jours)"
+                rules={[{ required: true, message: "Veuillez saisir la période de référence en jours" }]}
+              >
+                <InputNumber 
+                  placeholder="Ex: 30 pour comparer avec les 30 derniers jours"
+                  min={1}
+                  // controls={false}
+                  style={{ width: '100%' }}
+                />
+              </Form.Item>
+
+              <Form.Item
+                name="baselineStartDate"
+                label="Date de début de référence (optionnel)"
+              >
+                <DatePicker 
+                  showTime
+                  style={{ width: '100%' }}
+                  format="DD/MM/YYYY HH:mm"
+                  placeholder="Laisser vide pour calculer automatiquement"
+                />
+              </Form.Item>
+            </Space>
+          )}
+
           <Form.Item
             name="rewards"
             label="Récompenses"
@@ -693,12 +753,14 @@ const CompetitionsContent = () => {
           setEditModalVisible(false);
           setCurrentCompetition(null);
           setEditScope(undefined);
+          setEditObjective(undefined);
           editForm.resetFields();
         }}
         confirmLoading={editLoading}
         okText="Mettre à jour"
         cancelText="Annuler"
-        width={600}
+        width={'85%'}
+        centered
         okButtonProps={{ style: { backgroundColor: '#234B8E', borderColor: '#234B8E' } }}
       >
         <Form
@@ -722,6 +784,42 @@ const CompetitionsContent = () => {
           </Form.Item>
 
           <Space style={{ width: '100%' }} size="large">
+           <Form.Item
+              name="category"
+              label="Type de concours"
+              rules={[{ required: true, message: "Veuillez choisir le type de concours" }]}
+              style={{ flex: 1 }}
+            >
+              <Select placeholder="Choisir type de concours"  style={{ width: '100%' }}>
+                {Object.entries(categoryLabels).map(([key, value]) => (
+                  <Option key={key} value={key}>{value}</Option>
+                ))}
+              </Select>
+            </Form.Item>
+            <Form.Item
+              name="objective"
+              label="Objectif"
+              rules={[{ required: true, message: "Veuillez choisir l'objectif" }]}
+              style={{ flex: 1 }}
+            >
+              <Select 
+                placeholder="Choisir objectif"
+                style={{ minWidth: 400}}
+                onChange={(value: CompetitionObjective) => {
+                  setEditObjective(value);
+                  // Réinitialiser les champs baseline si on change d'objectif
+                  if (value !== 'INCREASE_FROM_BASELINE' && value !== 'DECREASE_FROM_BASELINE') {
+                    editForm.setFieldValue('baselinePeriodDays', undefined);
+                    editForm.setFieldValue('baselineStartDate', undefined);
+                  }
+                }}
+              >
+                <Option value="HIGHEST">Le plus élevé</Option>
+                <Option value="LOWEST">Le plus bas</Option>
+                <Option value="INCREASE_FROM_BASELINE">Augmentation par rapport à la période de référence</Option>
+                <Option value="DECREASE_FROM_BASELINE">Diminution par rapport à la période de référence</Option>
+              </Select>
+            </Form.Item>
             <Form.Item
               name="startTime"
               label="Heure de début"
@@ -747,33 +845,7 @@ const CompetitionsContent = () => {
                 format="DD/MM/YYYY HH:mm"
               />
             </Form.Item>
-          </Space>
-
-          <Space style={{ width: '100%' }} size="large">
-            <Form.Item
-              name="category"
-              label="Type de concours"
-              rules={[{ required: true, message: "Veuillez choisir le type de concours" }]}
-              style={{ flex: 1 }}
-            >
-              <Select placeholder="Choisir type de concours">
-                {Object.entries(categoryLabels).map(([key, value]) => (
-                  <Option key={key} value={key}>{value}</Option>
-                ))}
-              </Select>
-            </Form.Item>
-
-            <Form.Item
-              name="objective"
-              label="Objectif"
-              rules={[{ required: true, message: "Veuillez choisir l'objectif" }]}
-              style={{ flex: 1 }}
-            >
-              <Select placeholder="Choisir objectif">
-                <Option value="HIGHEST">Le plus élevé</Option>
-                <Option value="LOWEST">Le plus bas</Option>
-              </Select>
-            </Form.Item>
+            
           </Space>
 
           <Form.Item
@@ -823,6 +895,36 @@ const CompetitionsContent = () => {
                 ))}
               </Select>
             </Form.Item>
+          )}
+
+          {/* Afficher seulement pour les objectifs baseline */}
+          {(editObjective === 'INCREASE_FROM_BASELINE' || editObjective === 'DECREASE_FROM_BASELINE') && (
+            <Space style={{ width: '100%' }} size="large">
+              <Form.Item
+                name="baselinePeriodDays"
+                label="Période de référence (jours)"
+                rules={[{ required: true, message: "Veuillez saisir la période de référence en jours" }]}
+              >
+                <InputNumber 
+                  placeholder="Ex: 30 pour comparer avec les 30 derniers jours"
+                  min={1}
+                  // controls={false}
+                  style={{ width: '100%' }}
+                />
+              </Form.Item>
+
+              <Form.Item
+                name="baselineStartDate"
+                label="Date de début de référence (optionnel)"
+              >
+                <DatePicker 
+                  showTime
+                  style={{ width: '100%' }}
+                  format="DD/MM/YYYY HH:mm"
+                  placeholder="Laisser vide pour calculer automatiquement"
+                />
+              </Form.Item>
+            </Space>
           )}
 
           <Form.Item

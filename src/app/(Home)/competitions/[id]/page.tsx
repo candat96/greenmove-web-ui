@@ -25,6 +25,7 @@ import {
 import type { AlignType } from 'rc-table/lib/interface';
 import { useCompetitionDetail } from "./useCompetitionDetail";
 import { 
+  Competition,
   CompetitionCategory, 
   CompetitionStatus, 
   CompetitionObjective
@@ -36,11 +37,12 @@ const categoryLabels: Record<CompetitionCategory, string> = {
   'CO2': 'Émissions CO2',
   'BICYCLE': 'Vélo',
   'WALKING': 'Marche',
-  'DISTANCE': 'Distance',
-  'TRIPS': 'Nombre de trajets',
-  'POINTS': 'Points',
+  'CAR': 'Voiture',
   'CAR_POOL': 'Covoiturage',
-  'PUBLIC_TRANSPORT': 'Transport public'
+  'TRAIN': 'Train',
+  'AIRPLANE': 'Avion',
+  'PUBLIC_TRANSPORT': 'Transport public',
+  'POINTS': 'Points'
 };
 
 // Mapping des statuts pour l'affichage
@@ -49,6 +51,14 @@ const statusLabels: Record<CompetitionStatus, { label: string; color: string }> 
   'ACTIVE': { label: 'En cours', color: 'green' },
   'ENDED': { label: 'Terminé', color: 'red' },
   'CANCELLED': { label: 'Annulé', color: 'gray' }
+};
+
+// Mapping des objectifs pour l'affichage
+const objectiveLabels: Record<CompetitionObjective, string> = {
+  'HIGHEST': 'Le plus élevé',
+  'LOWEST': 'Le plus bas',
+  'INCREASE_FROM_BASELINE': 'Augmentation par rapport à la période de référence',
+  'DECREASE_FROM_BASELINE': 'Diminution par rapport à la période de référence'
 };
 
 const CompetitionDetailContent = () => {
@@ -251,11 +261,25 @@ const CompetitionDetailContent = () => {
               </Space>
             </Descriptions.Item>
             <Descriptions.Item label="Objectif">
-              {competition.objective === 'HIGHEST' ? 'Le plus haut' : 'Le plus bas'}
+              {objectiveLabels[competition.objective]}
             </Descriptions.Item>
             <Descriptions.Item label="Portée">
               {competition.scope === 'GLOBAL' ? 'Mondial' : 'Entreprise'}
             </Descriptions.Item>
+            {/* Afficher les informations baseline si applicable */}
+            {(competition.objective === 'INCREASE_FROM_BASELINE' || competition.objective === 'DECREASE_FROM_BASELINE') && competition.baselinePeriodDays && (
+              <Descriptions.Item label="Période de référence">
+                {competition.baselinePeriodDays} jours
+              </Descriptions.Item>
+            )}
+            {(competition.objective === 'INCREASE_FROM_BASELINE' || competition.objective === 'DECREASE_FROM_BASELINE') && competition.baselineStartDate && (
+              <Descriptions.Item label="Date de début de référence">
+                <Space>
+                  <CalendarOutlined />
+                  {dayjs(competition.baselineStartDate).format('HH:mm - DD/MM/YYYY')}
+                </Space>
+              </Descriptions.Item>
+            )}
             <Descriptions.Item label="Nombre total de participants">
               {leaderboard?.totalParticipants || 0}
             </Descriptions.Item>
