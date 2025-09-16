@@ -23,8 +23,8 @@ export const Chart = memo(() => {
   const [dataChartCo2, setDataChartCo2] = useState<DataChartCo2[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [dateRange, setDateRange] = useState<[dayjs.Dayjs, dayjs.Dayjs]>([
-    dayjs().startOf('month'), // Ngày đầu tiên của tháng hiện tại
-    dayjs().endOf('month')    // Ngày cuối cùng của tháng hiện tại
+    dayjs().startOf('month'), // Premier jour du mois actuel
+    dayjs().endOf('month')    // Dernier jour du mois actuel
   ]);
 
   const config = {
@@ -51,18 +51,18 @@ export const Chart = memo(() => {
       const { companies } = response.data;
       
       if (companies && companies.length > 0) {
-        // Sắp xếp công ty theo CO2 giảm dần
+        // Trier les entreprises par CO2 décroissant
         const sortedCompanies = [...companies].sort((a, b) => b.totalCo2 - a.totalCo2);
         
         let companiesToShow: CompanyData[] = sortedCompanies;
         let otherCompanies: CompanyData[] = [];
         
-        // Nếu có hơn 10 công ty, gộp từ công ty thứ 11 trở đi vào "Other"
+        // Si plus de 10 entreprises, regrouper de la 11ème entreprise en "Other"
         if (sortedCompanies.length > 10) {
           companiesToShow = sortedCompanies.slice(0, 10);
           otherCompanies = sortedCompanies.slice(10);
           
-          // Tạo nhóm Other bằng cách cộng tổng tất cả các giá trị
+          // Créer le groupe Other en additionnant toutes les valeurs
           if (otherCompanies.length > 0) {
             const otherCompany: CompanyData = {
               companyId: "other",
@@ -78,12 +78,12 @@ export const Chart = memo(() => {
           }
         }
         
-        // Tổng CO2 để tính phần trăm
+        // Total CO2 pour calculer les pourcentages
         const totalCO2 = companies.reduce((sum: number, company: CompanyData) => sum + company.totalCo2, 0);
         
-        // Chuyển đổi dữ liệu từ API sang định dạng ItemProps
+        // Convertir les données API vers le format ItemProps
         const formattedData = companiesToShow.map((company: CompanyData, index: number) => {
-          // Định nghĩa các màu theo thứ tự
+          // Définir les couleurs dans l'ordre
           const percent = totalCO2 > 0 ? Math.round((company.totalCo2 / totalCO2) * 100) : 0;
           
           return {
@@ -107,7 +107,7 @@ export const Chart = memo(() => {
       }
     } catch (error) {
       console.error("Error fetching companies data:", error);
-      // Dữ liệu mặc định nếu có lỗi
+      // Données par défaut en cas d'erreur
       
     } finally {
       setIsLoading(false);

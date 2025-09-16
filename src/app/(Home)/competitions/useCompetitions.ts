@@ -61,8 +61,8 @@ export const useCompetitions = () => {
       setPagination(response.pagination || {});
       setCompetitions(response.data);
     } catch (error) {
-      console.error('Lỗi khi tải danh sách cuộc thi:', error);
-      message.error('Không thể tải danh sách cuộc thi');
+      console.error('Erreur lors du chargement de la liste des compétitions:', error);
+      message.error('Impossible de charger la liste des compétitions');
     } finally {
       setLoading(false);
     }
@@ -73,13 +73,13 @@ export const useCompetitions = () => {
     try {
       setEditLoading(competitionId);
       const response = await updateCompetition(competitionId, payload);
-      message.success('Cập nhật cuộc thi thành công');
+      message.success('Compétition mise à jour avec succès');
       // Actualiser les données
       await fetchCompetitions();
       return response.data;
     } catch (error) {
-      console.error('Lỗi khi cập nhật cuộc thi:', error);
-      message.error('Không thể cập nhật cuộc thi');
+      console.error('Erreur lors de la mise à jour de la compétition:', error);
+      message.error('Impossible de mettre à jour la compétition');
       throw error;
     } finally {
       setEditLoading(null);
@@ -92,13 +92,13 @@ export const useCompetitions = () => {
       setDeleteLoading(competitionId);
       const response = await deleteCompetition(competitionId);
       if (response.success) {
-        message.success(response.message || 'Xóa cuộc thi thành công');
+        message.success(response.message || 'Compétition supprimée avec succès');
         // Actualiser les données
         await fetchCompetitions();
       }
     } catch (error) {
-      console.error('Lỗi khi xóa cuộc thi:', error);
-      message.error('Không thể xóa cuộc thi');
+      console.error('Erreur lors de la suppression de la compétition:', error);
+      message.error('Impossible de supprimer la compétition');
     } finally {
       setDeleteLoading(null);
     }
@@ -136,8 +136,8 @@ export const useCompetitions = () => {
       const response = await getCompetitionLeaderboard(competitionId, { page, limit, offset });
       setLeaderboard(response);
     } catch (error) {
-      console.error('Lỗi khi tải bảng xếp hạng:', error);
-      message.error('Không thể tải bảng xếp hạng');
+      console.error('Erreur lors du chargement du classement:', error);
+      message.error('Impossible de charger le classement');
     } finally {
       setLeaderboardLoading(false);
     }
@@ -150,8 +150,8 @@ export const useCompetitions = () => {
       const response = await getMyRankInCompetition(competitionId);
       setMyRank(response);
     } catch (error) {
-      console.error('Lỗi khi tải thứ hạng cá nhân:', error);
-      message.error('Không thể tải thứ hạng cá nhân');
+      console.error('Erreur lors du chargement du rang personnel:', error);
+      message.error('Impossible de charger le rang personnel');
     } finally {
       setMyRankLoading(false);
     }
@@ -164,8 +164,8 @@ export const useCompetitions = () => {
       const response = await getCompetitionStats();
       setStats(response);
     } catch (error) {
-      console.error('Lỗi khi tải thống kê:', error);
-      message.error('Không thể tải thống kê');
+      console.error('Erreur lors du chargement des statistiques:', error);
+      message.error('Impossible de charger les statistiques');
     } finally {
       setStatsLoading(false);
     }
@@ -178,13 +178,13 @@ export const useCompetitions = () => {
     try {
       setLoading(true);
       const response = await createCompetition(payload);
-      message.success('Tạo cuộc thi thành công');
+      message.success('Compétition créée avec succès');
       // Actualiser les données
       await fetchCompetitions();
       return response.data;
     } catch (error) {
-      console.error('Lỗi khi tạo cuộc thi:', error);
-      message.error('Không thể tạo cuộc thi');
+      console.error('Erreur lors de la création de la compétition:', error);
+      message.error('Impossible de créer la compétition');
       throw error;
     } finally {
       setLoading(false);

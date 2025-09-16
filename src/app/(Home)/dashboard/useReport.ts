@@ -22,8 +22,8 @@ export const useReport = () => {
       const response = await getTotalReport(params);
       setTotalReport(response.data);
     } catch (error) {
-      console.error("Lỗi khi lấy dữ liệu tổng hợp:", error);
-      setError("Không thể tải dữ liệu tổng hợp");
+      console.error("Erreur lors de la récupération des données consolidées:", error);
+      setError("Impossible de charger les données consolidées");
     } finally {
       setLoading(false);
     }
@@ -40,8 +40,8 @@ export const useReport = () => {
         fetchTotalReport(),
       ]);
     } catch (error) {
-      console.error("Lỗi khi tải dữ liệu:", error);
-      setError("Không thể tải dữ liệu báo cáo");
+      console.error("Erreur lors du chargement des données:", error);
+      setError("Impossible de charger les données de rapport");
     } finally {
       setLoading(false);
     }

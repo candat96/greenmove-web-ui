@@ -6,17 +6,17 @@ import {
 import { message } from 'antd';
 
 export const useCompetitionDetail = (competitionId: string) => {
-  // State cho bảng xếp hạng (bao gồm thông tin cuộc thi)
+  // État pour le classement (y compris les informations de compétition)
   const [leaderboard, setLeaderboard] = useState<LeaderboardResponse | null>(null);
   const [leaderboardLoading, setLeaderboardLoading] = useState<boolean>(false);
   
-  // State cho pagination
+  // État pour la pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(20);
 
 
 
-  // Fetch bảng xếp hạng với phân trang
+  // Récupérer le classement avec pagination
   const fetchLeaderboard = useCallback(async (page = currentPage, limit = pageSize) => {
     if (!competitionId) return;
     
@@ -31,8 +31,8 @@ export const useCompetitionDetail = (competitionId: string) => {
       setCurrentPage(page);
       setPageSize(limit);
     } catch (error) {
-      console.error('Lỗi khi tải bảng xếp hạng:', error);
-      message.error('Không thể tải bảng xếp hạng');
+      console.error('Erreur lors du chargement du classement:', error);
+      message.error('Impossible de charger le classement');
     } finally {
       setLeaderboardLoading(false);
     }
@@ -40,17 +40,17 @@ export const useCompetitionDetail = (competitionId: string) => {
 
 
 
-  // Handler cho thay đổi trang
+  // Gestionnaire pour les changements de page
   const handlePageChange = useCallback((page: number, size?: number) => {
     fetchLeaderboard(page, size || pageSize);
   }, [fetchLeaderboard, pageSize]);
 
-  // Refresh data
+  // Actualiser les données
   const refreshData = useCallback(async () => {
     await fetchLeaderboard();
   }, [fetchLeaderboard]);
 
-  // Effects
+  // Effets
   useEffect(() => {
     if (competitionId) {
       fetchLeaderboard();

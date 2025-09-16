@@ -44,25 +44,25 @@ const Chart2 = () => {
   const [durationData, setDurationData] = useState<PieChartItem[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  // Lấy danh sách công ty
+  // Récupérer la liste des entreprises
   useEffect(() => {
     const fetchCompanies = async () => {
       try {
         const response = await getCompanies();
         if (response.data && response.data.length > 0) {
           setCompanies(response.data);
-          // Chọn công ty đầu tiên mặc định
+          // Sélectionner la première entreprise par défaut
           setSelectedCompany(response.data[0].id);
         }
       } catch (error) {
-        console.error("Lỗi khi lấy danh sách công ty:", error);
+        console.error("Erreur lors de la récupération de la liste des entreprises:", error);
       }
     };
 
     fetchCompanies();
   }, []);
 
-  // Lấy dữ liệu thống kê khi chọn công ty hoặc thay đổi khoảng thời gian
+  // Récupérer les statistiques lors de la sélection d'entreprise ou changement de période
   useEffect(() => {
     if (!selectedCompany) return;
 
@@ -72,14 +72,14 @@ const Chart2 = () => {
         const startDate = dateRange[0].format('YYYY-MM-DD');
         const endDate = dateRange[1].format('YYYY-MM-DD');
 
-        // Lấy thống kê khoảng cách
+        // Récupérer les statistiques de distance
         const distanceResponse = await getCompanyVehicleDistanceStats(
           selectedCompany,
           startDate,
           endDate
         );
 
-        // Lấy thống kê thời gian
+        // Récupérer les statistiques de durée
         const durationResponse = await getCompanyVehicleDurationStats(
           selectedCompany,
           startDate,
@@ -87,7 +87,7 @@ const Chart2 = () => {
         );
 
         if (distanceResponse.data?.vehicleStats) {
-          // Xử lý dữ liệu khoảng cách cho biểu đồ
+          // Traiter les données de distance pour le graphique
           const totalDistance = distanceResponse.data.totalDistance;
           const distanceChartData = distanceResponse.data.vehicleStats.map((stat: VehicleStats) => {
             const percentage = totalDistance > 0 ? Math.round((stat.totalDistance / totalDistance) * 100) : 0;
@@ -107,7 +107,7 @@ const Chart2 = () => {
         }
 
         if (durationResponse.data?.vehicleStats) {
-          // Xử lý dữ liệu thời gian cho biểu đồ
+          // Traiter les données de durée pour le graphique
           const totalDuration = durationResponse.data.totalDuration;
           const durationChartData = durationResponse.data.vehicleStats.map((stat: VehicleStats) => {
             const percentage = totalDuration > 0 ? Math.round((stat.totalDuration as number / totalDuration) * 100) : 0;
@@ -120,7 +120,7 @@ const Chart2 = () => {
           setDurationData(durationChartData);
         }
       } catch (error) {
-        console.error("Lỗi khi lấy thống kê phương tiện:", error);
+        console.error("Erreur lors de la récupération des statistiques de véhicules:", error);
       } finally {
         setIsLoading(false);
       }
@@ -129,7 +129,7 @@ const Chart2 = () => {
     fetchVehicleStats();
   }, [selectedCompany, dateRange]);
 
-  // Chuyển đổi mã phương tiện thành văn bản
+  // Convertir le code véhicule en texte
   const getVehicleTypeText = (vehicleType: string): string => {
     const types: { [key: string]: string } = {
       CAR: "Voiture",
@@ -151,14 +151,14 @@ const Chart2 = () => {
     return types[vehicleType] || vehicleType;
   };
 
-  // Định dạng thời gian từ phút thành giờ:phút
+  // Formater la durée de minutes en heures:minutes
   const formatDuration = (minutes: number): string => {
     const hours = Math.floor(minutes / 60);
     const mins = minutes % 60;
     return hours > 0 ? `${hours}h ${mins}m` : `${mins}m`;
   };
 
-  // Cấu hình cho biểu đồ khoảng cách
+  // Configuration pour le graphique de distance
   const distanceConfig = {
     appendPadding: 10,
     data: distanceData,
@@ -239,7 +239,7 @@ const Chart2 = () => {
     },
   };
 
-  // Cấu hình cho biểu đồ thời gian
+  // Configuration pour le graphique de durée
   const durationConfig = {
     appendPadding: 10,
     data: durationData,
@@ -319,12 +319,12 @@ const Chart2 = () => {
     },
   };
 
-  // Xử lý khi thay đổi công ty được chọn
+  // Gérer les changements d'entreprise sélectionnée
   const handleCompanyChange = (value: string) => {
     setSelectedCompany(value);
   };
 
-  // Xử lý khi thay đổi khoảng thời gian
+  // Gérer les changements de période
   const handleDateChange = (dates: any) => {
     if (dates && dates.length === 2) {
       setDateRange(dates);
@@ -352,7 +352,7 @@ const Chart2 = () => {
             style={{ minWidth: 190 }}
             value={selectedCompany}
             onChange={handleCompanyChange}
-            placeholder="Chọn công ty"
+            placeholder="Sélectionner une entreprise"
             loading={companies.length === 0}
           />
         </div>
