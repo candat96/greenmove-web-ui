@@ -127,7 +127,11 @@ const CO2SettingPage = () => {
           SCOOTER: 'Scooter',
           ELECTRIC_BIKE: 'Vélo électrique',
           PLANE: 'Avion',
-          PUBLIC_TRANSPORT: 'Transport en commun'
+          PUBLIC_TRANSPORT: 'Transport en commun',
+          METRO: 'Métro',
+          TGV: 'TGV',
+          TER_RER: 'TER/RER',
+          TRAMWAY: 'Tramway',
         };
         return vehicleNames[text] || text;
       }
