@@ -345,7 +345,7 @@ const CompetitionsContent = () => {
           const uploadResponse = await uploadImage(createBannerFile);
           console.log(uploadResponse);
           // @ts-ignore
-          bannerUrl = uploadResponse.data.publicUrl || uploadResponse.publicUrl;
+          bannerUrl =  uploadResponse.publicUrl;
         } catch (error) {
           message.error('Échec du téléchargement de l\'image de bannière !');
           throw error;
@@ -394,8 +394,10 @@ const CompetitionsContent = () => {
       if (editBannerFile) {
         try {
           const uploadResponse = await uploadImage(editBannerFile);
-          // @ts-ignore
-          bannerUrl = uploadResponse.data.publicUrl || uploadResponse.publicUrl;
+         
+          console.log(uploadResponse);
+           // @ts-ignore
+          bannerUrl =  uploadResponse.publicUrl;
         } catch (error) {
           message.error('Échec du téléchargement de l\'image de bannière !');
           throw error;
