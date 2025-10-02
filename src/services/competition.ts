@@ -211,7 +211,7 @@ export const leaveCompetition = async (competitionId: string) => {
 }
 
 export const updateCompetition = async (competitionId: string, payload: Partial<CreateCompetitionPayload>) => {
-  return await axiosInstance.patch<Partial<CreateCompetitionPayload>, APIResponse<Competition>>(
+  return await axiosInstance.put<Partial<CreateCompetitionPayload>, APIResponse<Competition>>(
     `/competition/${competitionId}`,
     payload
   )
