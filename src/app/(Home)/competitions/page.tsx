@@ -25,7 +25,8 @@ import {
   DeleteOutlined,
   TrophyOutlined,
   FilterOutlined,
-  CheckCircleOutlined
+  CheckCircleOutlined,
+  InboxOutlined
 } from "@ant-design/icons";
 import type { AlignType } from 'rc-table/lib/interface';
 import { useCompetitions } from "./useCompetitions";
@@ -39,8 +40,13 @@ import {
   UpdateCompetitionStatusPayload
 } from "@/services/competition";
 import { getCompanies, Company } from "@/services/company";
+import { uploadImage } from "@/services/upload";
 import { useRouter } from "next/navigation";
-import { InputNumber } from "antd/lib";
+import { InputNumber, Upload, message as antdMessage } from "antd/lib";
+import { UploadOutlined } from "@ant-design/icons";
+import type { UploadProps, UploadFile } from 'antd';
+
+const { Dragger } = Upload;
 
 const { Option } = Select;
 
@@ -82,6 +88,14 @@ const CompetitionsContent = () => {
   const [companies, setCompanies] = useState<Company[]>([]);
   const [companiesLoading, setCompaniesLoading] = useState(false);
   const [companySearch, setCompanySearch] = useState('');
+  
+  // State pour upload banner
+  const [createBannerFile, setCreateBannerFile] = useState<File | null>(null);
+  const [editBannerFile, setEditBannerFile] = useState<File | null>(null);
+  const [createBannerPreview, setCreateBannerPreview] = useState<string>('');
+  const [editBannerPreview, setEditBannerPreview] = useState<string>('');
+  const [createBannerFileList, setCreateBannerFileList] = useState<UploadFile[]>([]);
+  const [editBannerFileList, setEditBannerFileList] = useState<UploadFile[]>([]);
   
   // Surveillance des changements de portée pour les mises à jour UI en temps réel
   const [createScope, setCreateScope] = useState<CompetitionScope | undefined>();
@@ -243,6 +257,18 @@ const CompetitionsContent = () => {
     setCurrentCompetition(competition);
     setEditScope(competition.scope); // Set initial scope state
     setEditObjective(competition.objective); // Set initial objective state
+    setEditBannerPreview(competition.banner || ''); // Set initial banner preview
+    // Set initial banner file list if banner exists  
+    if (competition.banner) {
+      setEditBannerFileList([{
+        uid: '-1',
+        name: 'banner.jpg',
+        status: 'done',
+        url: competition.banner,
+      }]);
+    } else {
+      setEditBannerFileList([]);
+    }
     editForm.setFieldsValue({
       name: competition.name,
       description: competition.description,
@@ -300,6 +326,9 @@ const CompetitionsContent = () => {
     setCreateModalVisible(true);
     setCreateScope(undefined); // Reset scope state
     setCreateObjective(undefined); // Reset objective state
+    setCreateBannerFile(null); // Reset banner file
+    setCreateBannerPreview(''); // Reset banner preview
+    setCreateBannerFileList([]); // Reset banner file list
     // Charger les entreprises à l'ouverture du modal
     fetchCompanies();
   };
@@ -308,6 +337,19 @@ const CompetitionsContent = () => {
     try {
       const values = await form.validateFields();
       setCreateLoading(true);
+      
+      // Upload de la bannière si un fichier est sélectionné
+      let bannerUrl = '';
+      if (createBannerFile) {
+        try {
+          const uploadResponse = await uploadImage(createBannerFile);
+          // @ts-ignore
+          bannerUrl = uploadResponse.publicUrl;
+        } catch (error) {
+          message.error('Échec du téléchargement de l\'image de bannière !');
+          throw error;
+        }
+      }
       
       const payload: CreateCompetitionPayload = {
         name: values.name,
@@ -319,7 +361,7 @@ const CompetitionsContent = () => {
         scope: values.scope,
         companyIds: values.companyIds,
         rewards: values.rewards,
-        banner: values.banner,
+        banner: bannerUrl,
         baselinePeriodDays: values.baselinePeriodDays,
         baselineStartDate: values.baselineStartDate ? dayjs(values.baselineStartDate).toISOString() : undefined,
       };
@@ -328,6 +370,9 @@ const CompetitionsContent = () => {
       setCreateModalVisible(false);
       setCreateScope(undefined);
       setCreateObjective(undefined);
+      setCreateBannerFile(null);
+      setCreateBannerPreview('');
+      setCreateBannerFileList([]);
       form.resetFields();
     } catch (error) {
       console.error("Erreur lors de la création du concours:", error);
@@ -343,6 +388,18 @@ const CompetitionsContent = () => {
       const values = await editForm.validateFields();
       setEditLoading(true);
       
+      // Upload de la bannière si un nouveau fichier est sélectionné
+      let bannerUrl = editBannerPreview; // Utiliser l'URL actuelle par défaut
+      if (editBannerFile) {
+        try {
+          const uploadResponse = await uploadImage(editBannerFile);
+          bannerUrl = uploadResponse.data.publicUrl;
+        } catch (error) {
+          message.error('Échec du téléchargement de l\'image de bannière !');
+          throw error;
+        }
+      }
+      
       const payload: Partial<CreateCompetitionPayload> = {
         name: values.name,
         description: values.description,
@@ -353,7 +410,7 @@ const CompetitionsContent = () => {
         scope: values.scope,
         companyIds: values.companyIds,
         rewards: values.rewards,
-        banner: values.banner,
+        banner: bannerUrl,
         baselinePeriodDays: values.baselinePeriodDays,
         baselineStartDate: values.baselineStartDate ? dayjs(values.baselineStartDate).toISOString() : undefined,
       };
@@ -362,12 +419,62 @@ const CompetitionsContent = () => {
       setEditModalVisible(false);
       setEditScope(undefined);
       setEditObjective(undefined);
+      setEditBannerFile(null);
+      setEditBannerPreview('');
+      setEditBannerFileList([]);
       editForm.resetFields();
       setCurrentCompetition(null);
     } catch (error) {
       console.error("Erreur lors de la mise à jour du concours:", error);
     } finally {
       setEditLoading(false);
+    }
+  };
+
+  // Handle banner change for create modal
+  const handleCreateBannerChange = (info: any) => {
+    const { fileList } = info;
+    setCreateBannerFileList(fileList);
+    
+    if (fileList.length > 0) {
+      const file = fileList[0].originFileObj || fileList[0];
+      setCreateBannerFile(file);
+      
+      // Créer l'URL de prévisualisation
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setCreateBannerPreview(e.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      setCreateBannerFile(null);
+      setCreateBannerPreview('');
+    }
+  };
+
+  // Handle banner change for edit modal
+  const handleEditBannerChange = (info: any) => {
+    const { fileList } = info;
+    setEditBannerFileList(fileList);
+    
+    if (fileList.length > 0) {
+      const file = fileList[0].originFileObj || fileList[0];
+      if (file && file instanceof File) {
+        setEditBannerFile(file);
+        
+        // Créer l'URL de prévisualisation pour le nouveau fichier
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          setEditBannerPreview(e.target?.result as string);
+        };
+        reader.readAsDataURL(file);
+      }
+    } else {
+      setEditBannerFile(null);
+      // Si il y a une ancienne bannière, la garder, sinon la supprimer
+      if (!currentCompetition?.banner) {
+        setEditBannerPreview('');
+      }
     }
   };
 
@@ -555,6 +662,9 @@ const CompetitionsContent = () => {
           setCreateModalVisible(false);
           setCreateScope(undefined);
           setCreateObjective(undefined);
+          setCreateBannerFile(null);
+          setCreateBannerPreview('');
+          setCreateBannerFileList([]);
           form.resetFields();
         }}
         confirmLoading={createLoading}
@@ -737,9 +847,47 @@ const CompetitionsContent = () => {
 
           <Form.Item
             name="banner"
-            label="Banner (URL)"
+            label="Image de bannière"
           >
-            <Input placeholder="https://example.com/banner.jpg" />
+            <Dragger
+              onChange={handleCreateBannerChange}
+              fileList={createBannerFileList}
+              accept="image/*"
+              maxCount={1}
+              showUploadList={false}
+              beforeUpload={() => false} // Ne pas télécharger automatiquement
+              style={{ padding: '20px' }}
+            >
+              {createBannerPreview ? (
+                <div style={{ textAlign: 'center' }}>
+                  <img 
+                    src={createBannerPreview} 
+                    alt="Banner preview" 
+                    style={{ 
+                      width: '100%', 
+                      maxHeight: '300px', 
+                      objectFit: 'contain',
+                      borderRadius: '8px'
+                    }}
+                  />
+                  <p style={{ marginTop: '12px', color: '#666' }}>
+                    Cliquez ou faites glisser une autre image ici pour la changer
+                  </p>
+                </div>
+              ) : (
+                <>
+                  <p className="ant-upload-drag-icon">
+                    <InboxOutlined style={{ fontSize: '48px', color: '#1890ff' }} />
+                  </p>
+                  <p className="ant-upload-text" style={{ fontSize: '16px', fontWeight: '500' }}>
+                    Cliquez ou faites glisser une image ici pour télécharger
+                  </p>
+                  <p className="ant-upload-hint" style={{ color: '#999' }}>
+                    Formats supportés : JPG, PNG, GIF. Taille maximum 2MB
+                  </p>
+                </>
+              )}
+            </Dragger>
           </Form.Item>
         </Form>
       </Modal>
@@ -754,6 +902,9 @@ const CompetitionsContent = () => {
           setCurrentCompetition(null);
           setEditScope(undefined);
           setEditObjective(undefined);
+          setEditBannerFile(null);
+          setEditBannerPreview('');
+          setEditBannerFileList([]);
           editForm.resetFields();
         }}
         confirmLoading={editLoading}
@@ -936,9 +1087,47 @@ const CompetitionsContent = () => {
 
           <Form.Item
             name="banner"
-            label="Banner (URL)"
+            label="Image de bannière"
           >
-            <Input placeholder="https://example.com/banner.jpg" />
+            <Dragger
+              onChange={handleEditBannerChange}
+              fileList={editBannerFileList}
+              accept="image/*"
+              maxCount={1}
+              showUploadList={false}
+              beforeUpload={() => false} // Ne pas télécharger automatiquement
+              style={{ padding: '20px' }}
+            >
+              {editBannerPreview ? (
+                <div style={{ textAlign: 'center' }}>
+                  <img 
+                    src={editBannerPreview} 
+                    alt="Banner preview" 
+                    style={{ 
+                      maxWidth: '100%', 
+                      maxHeight: '200px', 
+                      objectFit: 'contain',
+                      borderRadius: '8px'
+                    }}
+                  />
+                  <p style={{ marginTop: '12px', color: '#666' }}>
+                    Cliquez ou faites glisser une autre image ici pour la changer
+                  </p>
+                </div>
+              ) : (
+                <>
+                  <p className="ant-upload-drag-icon">
+                    <InboxOutlined style={{ fontSize: '48px', color: '#1890ff' }} />
+                  </p>
+                  <p className="ant-upload-text" style={{ fontSize: '16px', fontWeight: '500' }}>
+                    Cliquez ou faites glisser une image ici pour télécharger
+                  </p>
+                  <p className="ant-upload-hint" style={{ color: '#999' }}>
+                    Formats supportés : JPG, PNG, GIF. Taille maximum 10MB
+                  </p>
+                </>
+              )}
+            </Dragger>
           </Form.Item>
         </Form>
       </Modal>

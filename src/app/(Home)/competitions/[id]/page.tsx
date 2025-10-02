@@ -320,7 +320,7 @@ const CompetitionDetailContent = () => {
             <img 
               src={competition.banner} 
               alt="Competition Banner"
-              style={{ width: '100%', maxHeight: '200px', objectFit: 'cover', borderRadius: '8px' }}
+              style={{ width: '100%', maxHeight: '200px', objectFit: 'contain', borderRadius: '8px' }}
               onError={(e) => {
                 (e.target as HTMLImageElement).style.display = 'none';
               }}
