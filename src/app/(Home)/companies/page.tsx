@@ -5,6 +5,10 @@ import { useState } from "react";
 import styles from "./styles.module.scss";
 import { useCompany } from "./useCompany";
 
+const formatNumber = (num: number | undefined): string => {
+  if (!num) return "0";
+  return num.toLocaleString("en-US");
+};
 
 const columns = [
   {
@@ -24,32 +28,28 @@ const columns = [
     key: "totalCo2",
     render: (value) => {
       if (value >= 1000) {
-        return `${(value / 1000).toFixed(2)} t`;
+        return `${formatNumber(parseFloat((value / 1000).toFixed(2)))} t`;
       }
-      return `${value} kg`;
+      return `${formatNumber(value)} kg`;
     },
   },
   {
     title: "Distance Totale",
     dataIndex: "totalDistance",
     key: "totalDistance",
-    render: (value) => `${value} km`,
+    render: (value) => `${formatNumber(parseFloat(value?.toFixed(2) || "0"))} km`,
   },
   {
     title: "Durée Totale",
     dataIndex: "totalDuration",
     key: "totalDuration",
-    render: (value) => {
-      if (value >= 60) {
-        return `${(value / 60).toFixed(2)} heures`;
-      }
-      return `${value} minutes`;
-    },
+    render: (value) => `${formatNumber(parseFloat(value?.toFixed(2) || "0"))} h`,
   },
   {
     title: "Nombre de Trajets",
     dataIndex: "totalTrips",
     key: "totalTrips",
+    render: (value) => formatNumber(value),
   },
 ];
 
