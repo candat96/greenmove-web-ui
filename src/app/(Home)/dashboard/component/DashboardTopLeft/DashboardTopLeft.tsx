@@ -7,6 +7,11 @@ import Item from "../Item/Item";
 import { Spin } from "antd";
 import { useReport } from "../../useReport";
 
+const formatNumber = (num: number | undefined): string => {
+  if (!num) return "0";
+  return num.toLocaleString("en-US");
+};
+
 const DashboardTopLeft: React.FC = () => {
   const { totalReport, loading } = useReport();
 
@@ -30,8 +35,8 @@ const DashboardTopLeft: React.FC = () => {
               <h2 className={styles["des-2"]}>
                 {totalReport?.totalCo2 
                   ? totalReport.totalCo2 >= 1000 
-                    ? `${(totalReport.totalCo2 / 1000).toFixed(2)}t` 
-                    : `${totalReport.totalCo2} kg` 
+                    ? `${formatNumber(parseFloat((totalReport.totalCo2 / 1000).toFixed(2)))}t` 
+                    : `${formatNumber(totalReport.totalCo2)} kg` 
                   : "0 kg"}
               </h2>
               <h3 className={styles["des-3"]}>Émission totale de CO2</h3>
@@ -52,7 +57,7 @@ const DashboardTopLeft: React.FC = () => {
             <div className={styles["left-list-item"]}>
               <Item
                 header="Nombre total d'utilisateurs"
-                total={`${totalReport?.totalUsers || 0}`}
+                total={formatNumber(totalReport?.totalUsers)}
                 percent={10}
                 increase={false}
                 unit="users"
@@ -61,7 +66,7 @@ const DashboardTopLeft: React.FC = () => {
             <div className={styles["left-list-item"]}>
               <Item
                 header="Nombre total de voyages"
-                total={`${totalReport?.totalTrips || 0}`}
+                total={formatNumber(totalReport?.totalTrips)}
                 percent={10}
                 increase={true}
                 unit="trips"
@@ -70,7 +75,7 @@ const DashboardTopLeft: React.FC = () => {
             <div className={styles["left-list-item"]}>
               <Item
                 header="Distance totale"
-                total={`${totalReport?.totalDistance?.toFixed(2) || 0}`}
+                total={formatNumber(parseFloat(totalReport?.totalDistance?.toFixed(2) || "0"))}
                 percent={10}
                 increase={false}
                 unit="km"
@@ -79,14 +84,10 @@ const DashboardTopLeft: React.FC = () => {
             <div className={styles["left-list-item"]}>
               <Item
                 header="Durée totale"
-                total={totalReport?.totalDuration 
-                  ? totalReport.totalDuration >= 60 
-                    ? (totalReport.totalDuration / 60).toFixed(2) 
-                    : totalReport.totalDuration.toString() 
-                  : "0"}
+                total={formatNumber(parseFloat(totalReport?.totalDuration?.toFixed(2) || "0"))}
                 percent={10}
                 increase={false}
-                unit={totalReport?.totalDuration && totalReport.totalDuration >= 60 ? "h" : "min"}
+                unit="h"
               />
             </div>
           </>
